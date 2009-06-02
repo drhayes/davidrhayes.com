@@ -1,0 +1,83 @@
+body {
+    font-family: "Helvetica Neue-Light", "Helvetica Neue", "Helvetica", Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #fff;
+    color: #333;
+    line-height: 150%;
+}
+
+.container_12 {
+    background-color: #fff;
+    font-size: 87.5%;
+    line-height: 171.42%;
+}
+
+a { text-decoration: none; border-bottom: 1px dotted #777; color: inherit;}
+a:visited { color: inherit; }
+a:active { color: inherit; }
+a:hover { color: inherit; border-bottom: 1px dotted #333; }
+
+#sitetitlecontainer {
+    margin: 2% 0 2% 0;
+}
+
+#sitetitle {
+    text-align: center;
+    background: #39f;
+    color: #fff;
+    font-size: 5em;
+    letter-spacing: -6px;
+    margin: 0;
+    padding: 0.3em 0 0.3em 0;
+}
+
+#sitetitle a { color: #fff; text-decoration: none; border: none; }
+#sitetitle a:visited { color: #fff; }
+#sitetitle a:active { color: #fff; }
+#sitetitle a:hover { color: #fff; }
+
+#latestposts {
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 2%;
+    font-size: 150%;
+    font-weight: normal;
+}
+
+ul.posts li {
+    padding-left: 6.25%;
+}
+
+#meonline ul li {
+    padding-left: 6.25%;
+}
+
+#post {
+    padding: 0 0 1em 0;
+}
+
+#post img {
+    float: right;
+}
+
+#comments {
+    padding: 0 0 0 0.5em;
+}
+
+#nav {
+}
+
+h2 {
+    font-weight: normal;
+    font-size: 150%;
+    margin-bottom: 2%;
+    border-bottom: 1px solid #ddd;
+    clear: both;
+}
+
+h3 {
+    font-weight: normal;
+    font-size: 125%;
+    margin: 4% 0 2% 0;
+    clear: both;
+}
