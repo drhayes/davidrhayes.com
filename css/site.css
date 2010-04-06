@@ -1,3 +1,19 @@
 body {
 	background-image: url(../images/matrixbg.gif);
+	color: #aaeeff;
+	font-family: "Lucida Grande", monospace;
+	font-size: 16px;
+}
+
+.termouter {
+	background-color:#aaeeff;
+}
+
+.withcursor {
+	padding-right: 10px;
+}
+
+.terminner {
+	display: inline;
+	background-color:#111;
 }
