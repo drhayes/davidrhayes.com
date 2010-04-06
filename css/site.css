@@ -1,12 +1,24 @@
 body {
-	background-image: url(../images/matrixbg.gif);
-	color: #aaeeff;
-	font-family: "Lucida Grande", monospace;
+	background-color:#f0f0f0;
+	color: #999;
+	font-family: "Verdana", sans-serif;
 	font-size: 16px;
+	line-height: 24px;
+	font-weight: lighter;
+}
+
+#content {
+	margin: 20px;
+	padding: 10px;
+	border: 3px solid #ddd;
+	border-radius: 10px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	min-height: 600px;
 }
 
 .termouter {
-	background-color:#aaeeff;
+	background-color:#999;
 }
 
 .withcursor {
@@ -15,5 +27,5 @@ body {
 
 .terminner {
 	display: inline;
-	background-color:#111;
+	background-color:#f0f0f0;
 }
