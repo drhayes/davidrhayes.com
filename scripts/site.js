@@ -12,7 +12,7 @@ $(document).ready(function() {
 		var newish = current + text[0];
 		$(target).text(newish);
 		setTimeout(function() {
-			push_letters(text.slice(1), target);
+			push_letters(text.slice(1), target, callback);
 		}, 50);
 	};
 
@@ -21,14 +21,20 @@ $(document).ready(function() {
 			lines = [lines];
 		}
 		target = target || 'body';
-		for (var i=lines.length; i < len; i++) {
-			var elem = $('<span class="termouter withcursor"><p class="terminner"></p></span><br />');
-			$(elem).appendTo(target);
-			var inner = $(elem).children('.terminner');
-			setTimeout(function() {
-				push_letters(lines[i], inner);
-			}, 1000);
+		var typings = [];
+		for (var i=0, len = lines.length; i < len; i++) {
+			var typing = (function(line) {
+				return function(callback) {
+					console.log(callback, line);
+					var elem = $('<span class="termouter withcursor"><p class="terminner"></p></span><br />');
+					$(elem).appendTo(target);
+					var inner = $(elem).children('.terminner');
+					push_letters(line, inner, callback);
+				};
+			})(lines[i]);
+			typings.push(typing);
 		};
+		typings[0]();
 	};
 	
 	// don't start everything for a bit...
