@@ -13,6 +13,11 @@ body {
 	min-height: 600px;
 }
 
+#terminal {
+	height: 50px;
+	overflow: auto;
+}
+
 .termouter {
 	background-color:#999;
 }
@@ -23,5 +28,44 @@ body {
 
 .terminner {
 	display: inline;
-	background-color:#fefeff;
+	background-color: #fefeff;
+}
+
+#tilecontainerouter {
+	position: absolute;
+	top: 20px;
+	right: 20px;
+	width: 900px;
+	height: 700px;
+	overflow: hidden;
+	border: 1px solid #999;
+	border-radius: 15px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	box-shadow: 3px 3px 10px #888;
+	-webkit-box-shadow: 3px 3px 10px #888;
+	-moz-box-shadow: 3px 3px 10px #888;
+}
+
+#tilecontainerinner {
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+
+.tile {
+	position: absolute;
+	top: 0;
+	left: 0;
+	display: none;
+	border: 1px solid #333;
+	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	width: 20px;
+	height: 20px;
+	margin: 5px;
+}
+
+.tile:hover {
 }

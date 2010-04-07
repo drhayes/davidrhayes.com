@@ -1,5 +1,32 @@
 $(document).ready(function() {
 
+	// This is where the tile swirl.
+	var tile_container = $('<div id="tilecontainerouter"><div id="tilecontainerinner"></div></div>').
+		appendTo('#content').
+		children('#tilecontainerinner');
+	// This is where all the typing happens.
+	var terminal = $('<div id="terminal"></div>').appendTo('#content');
+
+	var Tile = function() {
+		var start_x = 0, start_y = 0;
+		var elem = $('<div class="tile"></div>').appendTo(tile_container).fadeIn('slow');
+		
+		return function() {
+			this.x = start_x;
+			this.y = start_y;
+			start_x += 10;
+			start_y += 10;
+			elem.attr({
+				'top': this.y + 'px',
+				'left': this.x + 'px'
+			});
+		};
+	};
+	
+	for (var i=0; i < 100; i++) {
+		new Tile();
+	};
+	
 	var unroll = function(funcs) {
 		if (funcs.length === 1) {
 			return funcs[0];
@@ -29,12 +56,11 @@ $(document).ready(function() {
 		if (!$.isArray(lines)) {
 			lines = [lines];
 		}
-		target = target || 'body';
+		target = target || '#terminal';
 		var typings = [];
 		for (var i=0, len = lines.length; i < len; i++) {
 			var typing = (function(line) {
 				return function(callback) {
-					console.log(callback, line);
 					var elem = $('<span class="termouter withcursor"><p class="terminner"></p></span><br />');
 					$(elem).appendTo(target);
 					var inner = $(elem).children('.terminner');
@@ -46,10 +72,15 @@ $(document).ready(function() {
 		(unroll(typings))();
 	};
 	
+	var tile = function(target) {
+		target = target || '#tilecontainer';
+		return 
+	};
+	
 	// don't start everything for a bit...
 	setTimeout(function() {
 		terminal_type(
 			['Subject: David R. Hayes',
-			'Username: drhayes'], '#content');
+			'Username: drhayes']);
 	}, 1500);
 });
