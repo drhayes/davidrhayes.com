@@ -1,5 +1,14 @@
 $(document).ready(function() {
 
+	var unroll = function(funcs) {
+		if (funcs.length === 1) {
+			return funcs[0];
+		};
+		return function() {
+			funcs[0](unroll(funcs.slice(1)));
+		};
+	};
+
 	var push_letters = function(text, target, callback) {
 		if (!text) {
 			$(target).parents('.termouter').removeClass('withcursor');
@@ -34,13 +43,13 @@ $(document).ready(function() {
 			})(lines[i]);
 			typings.push(typing);
 		};
-		typings[0]();
+		(unroll(typings))();
 	};
 	
 	// don't start everything for a bit...
 	setTimeout(function() {
 		terminal_type(
-			['Subject:David R. Hayes',
+			['Subject: David R. Hayes',
 			'Username: drhayes'], '#content');
 	}, 1500);
 });
