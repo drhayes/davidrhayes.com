@@ -22,6 +22,7 @@ $(document).ready(function() {
 			
 			this.move = function() {
 				this.x = start_x - (Math.sin(secret_counter) * 425);
+				console.log(this.x);
 				secret_counter += 0.05;
 				var opacity = '1.0';
 				if (secret_counter > left && secret_counter < right) {
@@ -36,17 +37,14 @@ $(document).ready(function() {
 					'opacity': opacity
 				});
 			};
-
 			this.x = Math.floor(Math.random() * 900);
-			console.log(this.x);
 			this.y = Math.floor(Math.random() * 650);
 			// Initialize the secret_counter to get the swirl right.
 			// Math.PI / 2 = 1, our max allowed from center (400), so
 			// figure out the ratio based on where we are now.
 			var how_far_from_center = (start_x - this.x);
-			var the_ratio = how_far_from_center / 900;
-			var to_radians = the_ratio * (Math.PI / 2);
-			secret_counter = Math.asin(to_radians);
+			var the_ratio = how_far_from_center / 450;
+			secret_counter = Math.asin(the_ratio);
 			if (Math.random() > 0.5) {
 				secret_counter += Math.PI;
 			}
@@ -58,7 +56,7 @@ $(document).ready(function() {
 		};
 	})();
 	
-	for (var i=0; i < 30; i++) {
+	for (var i=0; i < 65; i++) {
 		new Tile();
 	};
 	
