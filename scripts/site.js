@@ -8,6 +8,8 @@ $(document).ready(function() {
 	var terminal = $('<div id="terminal"></div>').appendTo('#content');
 	// This is where all the tiles are tracked.
 	var all_tiles = [];
+	
+	var d_counter = 0.005;
 
 	var Tile = (function() {
 		var start_x = 450;
@@ -22,8 +24,7 @@ $(document).ready(function() {
 			
 			this.move = function() {
 				this.x = start_x - (Math.sin(secret_counter) * 425);
-				console.log(this.x);
-				secret_counter += 0.05;
+				secret_counter += d_counter;
 				var opacity = '1.0';
 				if (secret_counter > left && secret_counter < right) {
 					opacity = '0.4';
@@ -64,6 +65,9 @@ $(document).ready(function() {
 		for (var i = 0, len = all_tiles.length; i < len; i++) {
 			all_tiles[i].move();
 		}
+		if (d_counter < 0.05) {
+			d_counter += 0.0005;
+		}
 	};
 	
 	var unroll = function(funcs) {
@@ -91,7 +95,7 @@ $(document).ready(function() {
 		}, 50);
 	};
 
-	var terminal_type = function(lines, target) {
+	var terminal_type = function(lines, target, callback) {
 		if (!$.isArray(lines)) {
 			lines = [lines];
 		}
@@ -108,6 +112,7 @@ $(document).ready(function() {
 			})(lines[i]);
 			typings.push(typing);
 		};
+		typings.push(callback);
 		(unroll(typings))();
 	};
 	
@@ -120,7 +125,10 @@ $(document).ready(function() {
 	setTimeout(function() {
 		terminal_type(
 			['Subject: David R. Hayes',
-			'Username: drhayes']);
-		setInterval(swirl, 33);
+			'Username: drhayes'],
+			'#terminal',
+			function() {
+				setInterval(swirl, 33);
+			});
 	}, 1500);
 });
