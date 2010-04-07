@@ -14,10 +14,7 @@ $(document).ready(function() {
 		var start_y = 0;
 		
 		return function(xx, yy) {
-			this.x = xx || start_x + Math.floor(Math.random() * 350) - 175;
-			this.y = yy || start_y;
-			this.elem = $('<div class="tile"></div>');
-			
+			var secret_counter = 0;
 			this.update_pos = function() {
 				this.elem.css({
 					'top': this.y + 'px',
@@ -25,6 +22,16 @@ $(document).ready(function() {
 				});
 			};
 			
+			this.move = function() {
+				this.x += Math.sin(secret_counter) * 10;
+				secret_counter += 0.1;
+				this.update_pos();
+			};
+
+			this.x = xx || start_x + Math.floor(Math.random() * 350) - 175;
+			this.y = yy || start_y;
+			this.elem = $('<div class="tile"></div>');
+
 			this.update_pos();
 			this.elem.appendTo(tile_container).fadeIn('slow');
 			
@@ -41,7 +48,9 @@ $(document).ready(function() {
 	};
 	
 	var swirl = function() {
-		
+		for (var i = 0, len = all_tiles.length; i < len; i++) {
+			all_tiles[i].move();
+		}
 	};
 	
 	var unroll = function(funcs) {
@@ -99,5 +108,6 @@ $(document).ready(function() {
 		terminal_type(
 			['Subject: David R. Hayes',
 			'Username: drhayes']);
+		setInterval(swirl, 33);
 	}, 1500);
 });
