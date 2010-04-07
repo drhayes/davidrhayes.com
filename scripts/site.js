@@ -17,41 +17,33 @@ $(document).ready(function() {
 		var left = Math.PI / 2;
 		var right = 3 * Math.PI / 2;
 		
-		return function(xx, yy) {
+		return function() {
 			var secret_counter = 0;
-			this.update_pos = function() {
-				this.elem.css({
-					'top': this.y + 'px',
-					'left': this.x + 'px'
-				});
-			};
 			
 			this.move = function() {
-				this.x = start_x - (Math.sin(secret_counter) * 400);
+				this.x = start_x - (Math.sin(secret_counter) * 425);
 				secret_counter += 0.05;
+				var opacity = '1.0';
 				if (secret_counter > left && secret_counter < right) {
-					this.elem.css({
-						'opacity': '0.4'
-					});
-				}
-				else {
-					this.elem.css({
-						'opacity': '1.0'
-					})
+					opacity = '0.4';
 				}
 				if (secret_counter > 2 * Math.PI) {
 					secret_counter = 0;
 				}
-				this.update_pos();
+				this.elem.css({
+					'top': this.y + 'px',
+					'left': this.x + 'px',
+					'opacity': opacity
+				});
 			};
 
-			this.x = xx || start_x + Math.floor(Math.random() * 400) - 200;
-			this.y = yy || start_y + Math.floor(Math.random() * 650);
+			this.x = Math.floor(Math.random() * 850) + 50;
+			this.y = Math.floor(Math.random() * 650);
 			// Initialize the secret_counter to get the swirl right.
 			// Math.PI / 2 = 1, our max allowed from center (400), so
 			// figure out the ratio based on where we are now.
 			var how_far_from_center = (start_x - this.x);
-			var the_ratio = how_far_from_center / 400;
+			var the_ratio = how_far_from_center / 450;
 			var to_radians = the_ratio * (Math.PI / 2);
 			secret_counter = Math.asin(to_radians);
 			if (Math.random() > 0.5) {
