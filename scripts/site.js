@@ -14,6 +14,30 @@ $(document).ready(function() {
 	
 	var tile_content_y = 0;
 	
+	var link_to_it = function(entry) {
+		return '<a href="' + entry.link + '">' + entry.title + '</a>';
+	};
+	
+	var feeds = [
+		{
+			'url': 'http://twitter.com/statuses/user_timeline/681443.rss',
+			'get_content': function(entry) {
+				return entry.content;
+			}
+		},
+		{
+			'url': 'http://feeds.feedburner.com/drhayes/blog'
+		},
+		{
+			'url': 'http://api.flickr.com/services/feeds/photos_public.gne?id=84031065@N00&amp;lang=en-us&amp;format=atom'
+		},
+		{
+			'url': 'http://feeds.delicious.com/v2/rss/drhayes?count=15'
+		}
+	];
+	
+	var num_tiles = feeds.length * 4;
+	
 	var d_counter = 0.005;
 
 	var Tile = (function() {
@@ -78,7 +102,7 @@ $(document).ready(function() {
 		};
 	})();
 	
-	for (var i=0; i < 65; i++) {
+	for (var i=0; i < num_tiles; i++) {
 		new Tile();
 	};
 	
@@ -144,7 +168,7 @@ $(document).ready(function() {
 	
 	var load_feed = function(url, get_data) {
 		get_data = get_data || function(entry) {
-			return entry.content;
+			return '<a href="' + entry.link + '">' + entry.title + '</a>';
 		};
 		var feed = new google.feeds.Feed(url);
 		feed.load(function(result) {
@@ -170,9 +194,9 @@ $(document).ready(function() {
 	}, 1500);
 	
 	setTimeout(function() {
-		load_feed('http://twitter.com/statuses/user_timeline/681443.rss');
-		load_feed('http://feeds.feedburner.com/drhayes/blog', function(entry) {
-			return '<a href="' + entry.link + '">' + entry.title + '</a>';
-		});
+		for (var i=0; i < feeds.length; i++) {
+			var feed = feeds[i];
+			load_feed(feed.url, feed.get_content);
+		};
 	}, 10000);
 });
