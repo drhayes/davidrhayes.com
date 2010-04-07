@@ -142,14 +142,17 @@ $(document).ready(function() {
 		return 
 	};
 	
-	var load_feed = function(url) {
+	var load_feed = function(url, get_data) {
+		get_data = get_data || function(entry) {
+			return entry.content;
+		};
 		var feed = new google.feeds.Feed(url);
 		feed.load(function(result) {
 			if (!result.error) {
 				for (var i = 0; i < result.feed.entries.length; i++) {
 					var entry = result.feed.entries[i];
 					var tile = all_tiles.pop();
-					tile.set_content(entry.content);
+					tile.set_content(get_data(entry));
 				}
 			}
 		});
@@ -168,5 +171,8 @@ $(document).ready(function() {
 	
 	setTimeout(function() {
 		load_feed('http://twitter.com/statuses/user_timeline/681443.rss');
+		load_feed('http://feeds.feedburner.com/drhayes/blog', function(entry) {
+			return '<a href="' + entry.link + '">' + entry.title + '</a>';
+		});
 	}, 10000);
 });
