@@ -40,10 +40,11 @@ $(document).ready(function() {
 			var the_ratio = how_far_from_center / 400;
 			var to_radians = the_ratio * (Math.PI / 2);
 			secret_counter = Math.asin(to_radians);
+			if (Math.random() > 0.5) {
+				secret_counter += Math.PI;
+			}
 			this.elem = $('<div class="tile"></div>');
 			this.move();
-
-			this.update_pos();
 			this.elem.appendTo(tile_container).fadeIn('slow');
 			
 			// update our secret global stuff
