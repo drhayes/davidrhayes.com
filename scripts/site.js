@@ -7,21 +7,24 @@ $(document).ready(function() {
 	// This is where all the typing happens.
 	var terminal = $('<div id="terminal"></div>').appendTo('#content');
 
-	var Tile = function() {
-		var start_x = 0, start_y = 0;
-		var elem = $('<div class="tile"></div>').appendTo(tile_container).fadeIn('slow');
+	var Tile = (function() {
+		var start_x = 450;
+		var start_y = 0;
 		
 		return function() {
 			this.x = start_x;
 			this.y = start_y;
-			start_x += 10;
-			start_y += 10;
-			elem.attr({
-				'top': this.y + 'px',
-				'left': this.x + 'px'
-			});
+			console.log(this.x + ' ' + this.y);
+			this.elem = $('<div class="tile"></div>').
+				css({
+					'top': this.y + 'px',
+					'left': this.x + 'px'
+				}).
+				appendTo(tile_container).
+				fadeIn('slow');
+			start_y += 3;
 		};
-	};
+	})();
 	
 	for (var i=0; i < 100; i++) {
 		new Tile();
