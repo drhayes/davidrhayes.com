@@ -37,13 +37,14 @@ $(document).ready(function() {
 				});
 			};
 
-			this.x = Math.floor(Math.random() * 850) + 50;
+			this.x = Math.floor(Math.random() * 900);
+			console.log(this.x);
 			this.y = Math.floor(Math.random() * 650);
 			// Initialize the secret_counter to get the swirl right.
 			// Math.PI / 2 = 1, our max allowed from center (400), so
 			// figure out the ratio based on where we are now.
 			var how_far_from_center = (start_x - this.x);
-			var the_ratio = how_far_from_center / 450;
+			var the_ratio = how_far_from_center / 900;
 			var to_radians = the_ratio * (Math.PI / 2);
 			secret_counter = Math.asin(to_radians);
 			if (Math.random() > 0.5) {
@@ -57,7 +58,7 @@ $(document).ready(function() {
 		};
 	})();
 	
-	for (var i=0; i < 100; i++) {
+	for (var i=0; i < 30; i++) {
 		new Tile();
 	};
 	
