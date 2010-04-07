@@ -23,18 +23,25 @@ $(document).ready(function() {
 			};
 			
 			this.move = function() {
-				this.x += Math.sin(secret_counter) * 10;
+				this.x = start_x - (Math.sin(secret_counter) * 400);
 				secret_counter += 0.1;
+				if (secret_counter > 2 * Math.PI) {
+					secret_counter = 0;
+				}
 				this.update_pos();
 			};
 
-			this.x = xx || start_x + Math.floor(Math.random() * 350) - 175;
+			this.x = xx || start_x + Math.floor(Math.random() * 400) - 200;
 			this.y = yy || start_y;
 			// Initialize the secret_counter to get the swirl right.
-			// Math.PI / 2 = 1, our max allowed from center (200), so
-			// figure out the ratio based on where we are.
-			secret_counter = (start_x - this.x) / 200 * (Math.PI / 2);
+			// Math.PI / 2 = 1, our max allowed from center (400), so
+			// figure out the ratio based on where we are now.
+			var how_far_from_center = (start_x - this.x);
+			var the_ratio = how_far_from_center / 400;
+			var to_radians = the_ratio * (Math.PI / 2);
+			secret_counter = Math.asin(to_radians);
 			this.elem = $('<div class="tile"></div>');
+			this.move();
 
 			this.update_pos();
 			this.elem.appendTo(tile_container).fadeIn('slow');
