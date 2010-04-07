@@ -1,3 +1,6 @@
+// Get the Google feed library
+google.load('feeds', '1');
+
 $(document).ready(function() {
 
 	// This is where the tile swirl.
@@ -8,6 +11,8 @@ $(document).ready(function() {
 	var terminal = $('<div id="terminal"></div>').appendTo('#content');
 	// This is where all the tiles are tracked.
 	var all_tiles = [];
+	
+	var tile_content_y = 0;
 	
 	var d_counter = 0.005;
 
@@ -38,8 +43,24 @@ $(document).ready(function() {
 					'opacity': opacity
 				});
 			};
+			
+			this.set_content = function(content) {
+				this.elem.css({
+					'opacity': '1.0',
+					'height': '20px',
+					'width': '100%',
+					'border': '0'
+				}).
+				animate({
+					'top': tile_content_y + 'px',
+					'left': '10px'
+				}, 2000).
+				html(content);
+				tile_content_y += 25;
+			};
+			
 			this.x = Math.floor(Math.random() * 900);
-			this.y = Math.floor(Math.random() * 650);
+			this.y = Math.floor(Math.random() * 200) + 300;
 			// Initialize the secret_counter to get the swirl right.
 			// Math.PI / 2 = 1, our max allowed from center (400), so
 			// figure out the ratio based on where we are now.
@@ -121,6 +142,19 @@ $(document).ready(function() {
 		return 
 	};
 	
+	var load_feed = function(url) {
+		var feed = new google.feeds.Feed(url);
+		feed.load(function(result) {
+			if (!result.error) {
+				for (var i = 0; i < result.feed.entries.length; i++) {
+					var entry = result.feed.entries[i];
+					var tile = all_tiles.pop();
+					tile.set_content(entry.content);
+				}
+			}
+		});
+	};
+	
 	// don't start everything for a bit...
 	setTimeout(function() {
 		terminal_type(
@@ -131,4 +165,8 @@ $(document).ready(function() {
 				setInterval(swirl, 33);
 			});
 	}, 1500);
+	
+	setTimeout(function() {
+		load_feed('http://twitter.com/statuses/user_timeline/681443.rss');
+	}, 10000);
 });
