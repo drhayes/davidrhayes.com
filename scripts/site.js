@@ -13,6 +13,10 @@ $(document).ready(function() {
 		var start_x = 450;
 		var start_y = 0;
 		
+		var center = 0;
+		var left = Math.PI / 2;
+		var right = 3 * Math.PI / 2;
+		
 		return function(xx, yy) {
 			var secret_counter = 0;
 			this.update_pos = function() {
@@ -24,7 +28,17 @@ $(document).ready(function() {
 			
 			this.move = function() {
 				this.x = start_x - (Math.sin(secret_counter) * 400);
-				secret_counter += 0.1;
+				secret_counter += 0.05;
+				if (secret_counter > left && secret_counter < right) {
+					this.elem.css({
+						'opacity': '0.4'
+					});
+				}
+				else {
+					this.elem.css({
+						'opacity': '1.0'
+					})
+				}
 				if (secret_counter > 2 * Math.PI) {
 					secret_counter = 0;
 				}
@@ -32,7 +46,7 @@ $(document).ready(function() {
 			};
 
 			this.x = xx || start_x + Math.floor(Math.random() * 400) - 200;
-			this.y = yy || start_y;
+			this.y = yy || start_y + Math.floor(Math.random() * 650);
 			// Initialize the secret_counter to get the swirl right.
 			// Math.PI / 2 = 1, our max allowed from center (400), so
 			// figure out the ratio based on where we are now.
@@ -47,10 +61,6 @@ $(document).ready(function() {
 			this.move();
 			this.elem.appendTo(tile_container).fadeIn('slow');
 			
-			// update our secret global stuff
-			if (!yy) {
-				start_y += 6;
-			}
 			all_tiles.push(this);
 		};
 	})();
