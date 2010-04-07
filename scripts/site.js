@@ -6,28 +6,42 @@ $(document).ready(function() {
 		children('#tilecontainerinner');
 	// This is where all the typing happens.
 	var terminal = $('<div id="terminal"></div>').appendTo('#content');
+	// This is where all the tiles are tracked.
+	var all_tiles = [];
 
 	var Tile = (function() {
 		var start_x = 450;
 		var start_y = 0;
 		
-		return function() {
-			this.x = start_x;
-			this.y = start_y;
-			console.log(this.x + ' ' + this.y);
-			this.elem = $('<div class="tile"></div>').
-				css({
+		return function(xx, yy) {
+			this.x = xx || start_x + Math.floor(Math.random() * 350) - 175;
+			this.y = yy || start_y;
+			this.elem = $('<div class="tile"></div>');
+			
+			this.update_pos = function() {
+				this.elem.css({
 					'top': this.y + 'px',
 					'left': this.x + 'px'
-				}).
-				appendTo(tile_container).
-				fadeIn('slow');
-			start_y += 3;
+				});
+			};
+			
+			this.update_pos();
+			this.elem.appendTo(tile_container).fadeIn('slow');
+			
+			// update our secret global stuff
+			if (!yy) {
+				start_y += 6;
+			}
+			all_tiles.push(this);
 		};
 	})();
 	
 	for (var i=0; i < 100; i++) {
 		new Tile();
+	};
+	
+	var swirl = function() {
+		
 	};
 	
 	var unroll = function(funcs) {
