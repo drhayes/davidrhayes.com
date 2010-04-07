@@ -30,6 +30,10 @@ $(document).ready(function() {
 
 			this.x = xx || start_x + Math.floor(Math.random() * 350) - 175;
 			this.y = yy || start_y;
+			// Initialize the secret_counter to get the swirl right.
+			// Math.PI / 2 = 1, our max allowed from center (200), so
+			// figure out the ratio based on where we are.
+			secret_counter = (start_x - this.x) / 200 * (Math.PI / 2);
 			this.elem = $('<div class="tile"></div>');
 
 			this.update_pos();
