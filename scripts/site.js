@@ -33,6 +33,12 @@ $(document).ready(function() {
 		},
 		{
 			'url': 'http://feeds.delicious.com/v2/rss/drhayes?count=15'
+		},
+		{
+			'url': 'http://www.google.com/reader/public/atom/user%2F13856078743170169356%2Fstate%2Fcom.google%2Fbroadcast'
+		},
+		{
+			'url': 'http://picasaweb.google.com/data/feed/base/user/drhayes?alt=rss&kind=album&hl=en_US&access=public'
 		}
 	];
 	
