@@ -1,4 +1,3 @@
-- get rid of bounding box
 - different tiles move at different speeds
 - queue up the set_content calls in some way (or set_content submits to queue) that is only polled every once in a while to serialize tile-to-content conversion
 - instead of starting tiles at rest, fade them in as they are moving, maybe one-by-one at same speed as replies come in
