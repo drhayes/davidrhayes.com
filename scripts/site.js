@@ -33,6 +33,7 @@ $(document).ready(function() {
 	
 	var feeds = [
 		{
+			// Twitter
 			'url': 'http://twitter.com/statuses/user_timeline/681443.rss',
 			'get_content': function(entry) {
 				var tweet = entry.content.substring('drhayes: '.length);
@@ -40,18 +41,23 @@ $(document).ready(function() {
 			}
 		},
 		{
+			// Blog
 			'url': 'http://feeds.feedburner.com/drhayes/blog'
 		},
 		{
+			// Flickr
 			'url': 'http://api.flickr.com/services/feeds/photos_public.gne?id=84031065@N00&amp;lang=en-us&amp;format=atom'
 		},
 		{
+			// Delicious
 			'url': 'http://feeds.delicious.com/v2/rss/drhayes?count=15'
 		},
 		{
+			// Shared items in Reader
 			'url': 'http://www.google.com/reader/public/atom/user%2F13856078743170169356%2Fstate%2Fcom.google%2Fbroadcast'
 		},
 		{
+			// Picasa public photos
 			'url': 'http://picasaweb.google.com/data/feed/base/user/drhayes?alt=rss&kind=album&hl=en_US&access=public'
 		}
 	];
