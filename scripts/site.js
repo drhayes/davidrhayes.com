@@ -56,7 +56,7 @@ $(document).ready(function() {
 	// Decrement as tiles are filled with content.
 	var current_tile_index = num_tiles - 1;
 
-	var d_counter = 0.005;
+	var d_counter = 0.05;
 
 	var Tile = (function() {
 		var start_x = 450;
@@ -126,9 +126,6 @@ $(document).ready(function() {
 		for (var id in all_tiles) {
 			all_tiles[id].move();
 			saw_any = true;
-		}
-		if (d_counter < 0.05) {
-			d_counter += 0.0005;
 		}
 		// Are we done swirling?
 		if (!saw_any) {
