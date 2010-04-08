@@ -3,6 +3,8 @@ google.load('feeds', '1');
 
 $(document).ready(function() {
 
+	// How much each tile can move around.
+	var MOVEMENT_RANGE = 425;
 	// This is where the tile swirl.
 	var tile_container = $('<div id="tilecontainerouter"><div id="tilecontainerinner"></div></div>').
 		appendTo('#content').
@@ -57,9 +59,12 @@ $(document).ready(function() {
 		return function() {
 			var secret_counter = 0;
 			
+			this.rate_of_speed = Math.min(Math.random() + 0.3, 1);
+			this.movement_range = MOVEMENT_RANGE * this.rate_of_speed;
+			
 			this.move = function() {
-				this.x = start_x - (Math.sin(secret_counter) * 425);
-				secret_counter += d_counter;
+				this.x = start_x - (Math.sin(secret_counter) * this.movement_range);
+				secret_counter += d_counter * this.rate_of_speed;
 				var opacity = '1.0';
 				if (secret_counter > left && secret_counter < right) {
 					opacity = '0.4';

@@ -1,8 +1,8 @@
 body {
 	background-color: #fefeff;
 	background-image: url('../images/backtexture.gif');
-	color: #999;
-	font-family: "Verdana", sans-serif;
+	color: #cacaca;
+	font-family: "Palomino", Tahoma, sans-serif;
 	font-size: 16px;
 	line-height: 24px;
 	font-weight: lighter;
@@ -29,7 +29,7 @@ body {
 
 .terminner {
 	display: inline;
-	background-color: #fefeff;
+	background-color: #000;
 }
 
 #tilecontainerouter {
