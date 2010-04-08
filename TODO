@@ -1,4 +1,3 @@
-- set to dark background with light tiles
 - get rid of bounding box
 - different tiles move at different speeds
 - queue up the set_content calls in some way (or set_content submits to queue) that is only polled every once in a while to serialize tile-to-content conversion
