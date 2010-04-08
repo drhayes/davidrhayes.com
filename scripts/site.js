@@ -11,8 +11,13 @@ $(document).ready(function() {
 		children('#tilecontainerinner');
 	// This is where all the typing happens.
 	var terminal = $('<div id="terminal"></div>').appendTo('#content');
-	// This is where all the tiles are tracked.
-	var all_tiles = [];
+	// This is where all the tiles are tracked. We use a dictionary
+	// so we can later remove the tiles.
+	var all_tiles = {};
+	// The queue of tiles that should be animated to the content area.
+	var content_tiles_queue = [];
+	// The numeric ID that is assigned to each tile as it is created.
+	var tile_id = 0;
 	
 	var tile_content_y = 0;
 	
@@ -44,8 +49,11 @@ $(document).ready(function() {
 		}
 	];
 	
+	// Google Feed API brings back four entries per feed.
 	var num_tiles = feeds.length * 4;
-	
+	// Decrement as tiles are filled with content.
+	var current_tile_index = num_tiles - 1;
+
 	var d_counter = 0.005;
 
 	var Tile = (function() {
@@ -58,7 +66,7 @@ $(document).ready(function() {
 		
 		return function() {
 			var secret_counter = 0;
-			
+			// Don't let rate of speed exceed 1
 			this.rate_of_speed = Math.min(Math.random() + 0.3, 1);
 			this.movement_range = MOVEMENT_RANGE * this.rate_of_speed;
 			
@@ -80,18 +88,8 @@ $(document).ready(function() {
 			};
 			
 			this.set_content = function(content) {
-				this.elem.css({
-					'opacity': '1.0',
-					'height': '20px',
-					'width': '100%',
-					'border': '0'
-				}).
-				animate({
-					'top': tile_content_y + 'px',
-					'left': '10px'
-				}, 2000).
-				html(content);
-				tile_content_y += 25;
+				this.content = content;
+				content_tiles_queue.push(this);
 			};
 			
 			this.x = Math.floor(Math.random() * 900);
@@ -108,8 +106,9 @@ $(document).ready(function() {
 			this.elem = $('<div class="tile"></div>');
 			this.move();
 			this.elem.appendTo(tile_container).fadeIn('slow');
-			
-			all_tiles.push(this);
+			this.tile_id = tile_id;
+			all_tiles[this.tile_id] = this;
+			tile_id += 1;
 		};
 	})();
 	
@@ -118,8 +117,8 @@ $(document).ready(function() {
 	};
 	
 	var swirl = function() {
-		for (var i = 0, len = all_tiles.length; i < len; i++) {
-			all_tiles[i].move();
+		for (var id in all_tiles) {
+			all_tiles[id].move();
 		}
 		if (d_counter < 0.05) {
 			d_counter += 0.0005;
@@ -186,7 +185,8 @@ $(document).ready(function() {
 			if (!result.error) {
 				for (var i = 0; i < result.feed.entries.length; i++) {
 					var entry = result.feed.entries[i];
-					var tile = all_tiles.pop();
+					var tile = all_tiles[current_tile_index];
+					current_tile_index -= 1;
 					tile.set_content(get_data(entry));
 				}
 			}
@@ -210,4 +210,24 @@ $(document).ready(function() {
 			load_feed(feed.url, feed.get_content);
 		};
 	}, 10000);
+	
+	setInterval(function() {
+		// Check to see if we have any tiles we need to animate.
+		var tile = content_tiles_queue.shift();
+		if (tile) {
+			delete(all_tiles[tile.tile_id]);
+			tile.elem.css({
+				'opacity': '1.0',
+				'height': '20px',
+				'width': '100%',
+				'border': '0'
+			}).
+			animate({
+				'top': tile_content_y + 'px',
+				'left': '10px'
+			}, 2000).
+			html(tile.content);
+			tile_content_y += 25;
+		}
+	}, 500);
 });
