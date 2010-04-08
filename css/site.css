@@ -8,6 +8,16 @@ body {
 	font-weight: lighter;
 }
 
+a, a:visited {
+	color: #ddd;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+a:hover, a:active {
+	background-color: rgba(202, 202, 202, 0.2);
+}
+
 #content {
 	margin: 20px;
 	padding: 10px;
