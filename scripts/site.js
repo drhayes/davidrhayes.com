@@ -31,7 +31,7 @@ $(document).ready(function() {
 		{
 			'url': 'http://twitter.com/statuses/user_timeline/681443.rss',
 			'get_content': function(entry) {
-				return entry.content;
+				return entry.content.substring('drhayes: '.length);
 			}
 		},
 		{
