@@ -73,7 +73,8 @@ $(document).ready(function() {
 			this.movement_range = MOVEMENT_RANGE * this.rate_of_speed;
 			
 			this.move = function() {
-				this.x = start_x - (Math.sin(secret_counter) * this.movement_range);
+				var siny = Math.sin(secret_counter);
+				this.x = start_x - (siny * this.movement_range);
 				secret_counter += d_counter * this.rate_of_speed;
 				var opacity = '1.0';
 				if (secret_counter > left && secret_counter < right) {
@@ -85,7 +86,8 @@ $(document).ready(function() {
 				this.elem.css({
 					'top': this.y + 'px',
 					'left': this.x + 'px',
-					'opacity': opacity
+					'opacity': opacity,
+					'-webkit-transform': 'rotate3d(0,1,0,' + secret_counter + 'rad)'
 				});
 			};
 			
@@ -229,7 +231,8 @@ $(document).ready(function() {
 				'opacity': '1.0',
 				'height': '20px',
 				'width': '100%',
-				'border': '0'
+				'border': '0',
+				'-webkit-transform': 'rotate3d(0,1,0,0rad)'
 			}).
 			animate({
 				'top': tile_content_y + 'px',
