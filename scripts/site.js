@@ -31,32 +31,36 @@ $(document).ready(function() {
 	
 	var feeds = [
 		{
-			// Twitter
+			'name': 'twitter',
 			'url': 'http://twitter.com/statuses/user_timeline/681443.rss',
 			'get_content': function(entry) {
 				var tweet = entry.content.substring('drhayes: '.length);
-				return ify.clean(tweet);
+				return ['<div class="iconhere">', ify.clean(tweet), '</div>'].join('');
 			}
 		},
 		{
-			// Blog
+			'name': 'posterous',
 			'url': 'http://feeds.feedburner.com/drhayes/blog'
 		},
 		{
-			// Flickr
+			'name': 'flickr',
 			'url': 'http://api.flickr.com/services/feeds/photos_public.gne?id=84031065@N00&amp;lang=en-us&amp;format=atom'
 		},
 		{
-			// Delicious
+			'name': 'delicious',
 			'url': 'http://feeds.delicious.com/v2/rss/drhayes?count=15'
 		},
 		{
-			// Shared items in Reader
+			'name': 'greader',
 			'url': 'http://www.google.com/reader/public/atom/user%2F13856078743170169356%2Fstate%2Fcom.google%2Fbroadcast'
 		},
 		{
-			// Picasa public photos
+			'name': 'picasa',
 			'url': 'http://picasaweb.google.com/data/feed/base/user/drhayes?alt=rss&kind=album&hl=en_US&access=public'
+		},
+		{
+			'name': 'lastfm',
+			'url': 'http://ws.audioscrobbler.com/1.0/user/drhayes9/recenttracks.rss'
 		}
 	];
 	
@@ -106,8 +110,9 @@ $(document).ready(function() {
 				});
 			};
 			
-			this.set_content = function(content) {
+			this.set_content = function(content, feedy_name) {
 				this.content = content;
+				this.feedy_name = feedy_name;
 				content_tiles_queue.push(this);
 			};
 			
@@ -191,18 +196,18 @@ $(document).ready(function() {
 		(unroll(typings))();
 	};
 	
-	var load_feed = function(url, get_data) {
-		get_data = get_data || function(entry) {
-			return '<a href="' + entry.link + '">' + entry.title + '</a>';
+	var load_feed = function(feedy) {
+		var get_content = feedy.get_content || function(entry) {
+			return '<div class="iconhere"><a href="' + entry.link + '">' + entry.title + '</a></div>';
 		};
-		var feed = new google.feeds.Feed(url);
+		var feed = new google.feeds.Feed(feedy.url);
 		feed.load(function(result) {
 			if (!result.error) {
 				for (var i = 0; i < result.feed.entries.length; i++) {
 					var entry = result.feed.entries[i];
 					var tile = all_tiles[current_tile_index];
 					current_tile_index -= 1;
-					tile.set_content(get_data(entry));
+					tile.set_content(get_content(entry), feedy.name);
 				}
 			}
 		});
@@ -211,7 +216,7 @@ $(document).ready(function() {
 	// don't start everything for a bit...
 	setTimeout(function() {
 		terminal_type(
-			['Subject: David R. Hayes'],
+			['David Hayes\' Social Swirl'],
 			function() {
 				swirl_interval = setInterval(swirl, 33);
 				// Iterate through the tiles slowly, displaying them one at a time.
@@ -227,8 +232,7 @@ $(document).ready(function() {
 	
 	setTimeout(function() {
 		for (var i=0; i < feeds.length; i++) {
-			var feed = feeds[i];
-			load_feed(feed.url, feed.get_content);
+			load_feed(feeds[i]);
 		};
 	}, 10000);
 	
@@ -248,7 +252,8 @@ $(document).ready(function() {
 				'top': tile_content_y + 'px',
 				'left': '10px'
 			}, 2000).
-			html(tile.content);
+			html(tile.content).
+			find('.iconhere').addClass(tile.feedy_name).end();
 			tile_content_y += 25;
 		}
 	}, 500);

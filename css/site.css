@@ -53,7 +53,7 @@ a:hover, a:active {
 
 .tile {
 	font-size: 12px;
-	overflow: auto;
+	overflow: hidden;
 	position: absolute;
 	display: none;
 	border: 2px solid #cacaca;
@@ -62,4 +62,38 @@ a:hover, a:active {
 	-moz-border-radius: 5px;
 	width: 20px;
 	height: 20px;
+}
+
+.iconhere {
+	padding-left: 20px;
+	background-repeat: no-repeat;
+	background-position:left center;
+}
+
+.twitter {
+	background-image: url('../images/icons/twitter.png');
+}
+
+.posterous {
+	background-image: url('../images/icons/posterous.png');
+}
+
+.flickr {
+	background-image: url('../images/icons/flickr.png');
+}
+
+.delicious {
+	background-image: url('../images/icons/delicious.png');
+}
+
+.greader {
+	background-image: url('../images/icons/google.png');
+}
+
+.picasa {
+	background-image: url('../images/icons/picasa.png');
+}
+
+.lastfm {
+	background-image: url('../images/icons/lastfm.png');
 }
