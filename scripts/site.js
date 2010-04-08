@@ -18,6 +18,8 @@ $(document).ready(function() {
 	var content_tiles_queue = [];
 	// The numeric ID that is assigned to each tile as it is created.
 	var tile_id = 0;
+	// Track the swirl interval.
+	var swirl_interval;
 	
 	var tile_content_y = 0;
 	
@@ -117,11 +119,18 @@ $(document).ready(function() {
 	};
 	
 	var swirl = function() {
+		console.log('swirl!');
+		var saw_any = false;
 		for (var id in all_tiles) {
 			all_tiles[id].move();
+			saw_any = true;
 		}
 		if (d_counter < 0.05) {
 			d_counter += 0.0005;
+		}
+		// Are we done swirling?
+		if (!saw_any) {
+			clearInterval(swirl_interval);
 		}
 	};
 	
@@ -200,7 +209,7 @@ $(document).ready(function() {
 			'Username: drhayes'],
 			'#terminal',
 			function() {
-				setInterval(swirl, 33);
+				swirl_interval = setInterval(swirl, 33);
 			});
 	}, 1500);
 	
