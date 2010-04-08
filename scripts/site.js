@@ -20,6 +20,10 @@ $(document).ready(function() {
 	var tile_id = 0;
 	// Track the swirl interval.
 	var swirl_interval;
+	// Initial fade-in index.
+	var appear_index = 0;
+	// Initial fade-in interval.
+	var appear_interval;
 	
 	var tile_content_y = 0;
 	
@@ -31,7 +35,8 @@ $(document).ready(function() {
 		{
 			'url': 'http://twitter.com/statuses/user_timeline/681443.rss',
 			'get_content': function(entry) {
-				return entry.content.substring('drhayes: '.length);
+				var tweet = entry.content.substring('drhayes: '.length);
+				return ify.clean(tweet);
 			}
 		},
 		{
@@ -109,7 +114,7 @@ $(document).ready(function() {
 			}
 			this.elem = $('<div class="tile"></div>');
 			this.move();
-			this.elem.appendTo(tile_container).fadeIn('slow');
+			this.elem.appendTo(tile_container);
 			this.tile_id = tile_id;
 			all_tiles[this.tile_id] = this;
 			tile_id += 1;
@@ -121,7 +126,6 @@ $(document).ready(function() {
 	};
 	
 	var swirl = function() {
-		console.log('swirl!');
 		var saw_any = false;
 		for (var id in all_tiles) {
 			all_tiles[id].move();
@@ -209,6 +213,14 @@ $(document).ready(function() {
 			'#terminal',
 			function() {
 				swirl_interval = setInterval(swirl, 33);
+				// Iterate through the tiles slowly, displaying them one at a time.
+				appear_interval = setInterval(function() {
+					all_tiles[appear_index].elem.show();
+					appear_index += 1;
+					if (appear_index === num_tiles) {
+						clearInterval(appear_interval);
+					}
+				}, 200);
 			});
 	}, 1500);
 	
