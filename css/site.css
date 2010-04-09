@@ -56,16 +56,11 @@ a:hover, a:active {
 	overflow: hidden;
 	position: absolute;
 	display: none;
-	border: 2px solid #cacaca;
-	border-radius: 5px;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
 	width: 20px;
 	height: 20px;
 }
 
 .iconhere {
-	padding-left: 20px;
 	background-repeat: no-repeat;
 	background-position:left center;
 }

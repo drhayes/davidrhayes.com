@@ -33,7 +33,7 @@ $(document).ready(function() {
 		this.name = name;
 		this.url = url;
 		this.get_content = get_content || function(entry) {
-			return '<div class="iconhere"><a href="' + entry.link + '">' + entry.title + '</a></div>';
+			return '<a href="' + entry.link + '">' + entry.title + '</a>';
 		};
 	};
 	
@@ -114,7 +114,7 @@ $(document).ready(function() {
 			if (Math.random() > 0.5) {
 				secret_counter += Math.PI;
 			}
-			this.elem = $('<div class="tile"></div>');
+			this.elem = $('<div class="tile iconhere ' + this.feedy.name + '"></div>');
 			this.move();
 			this.elem.appendTo(tile_container);
 		};
@@ -225,8 +225,7 @@ $(document).ready(function() {
 				'top': tile_content_y + 'px',
 				'left': '10px'
 			}, 2000).
-			html(tile.content).
-			find('.iconhere').addClass(tile.feedy_name).end();
+			html(tile.content);
 			tile_content_y += 25;
 		}
 	}, 500);
