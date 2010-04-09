@@ -65,6 +65,10 @@ a:hover, a:active {
 	background-position:left center;
 }
 
+.scoochtile {
+	padding-left: 20px;
+}
+
 .twitter {
 	background-image: url('../images/icons/twitter.png');
 }

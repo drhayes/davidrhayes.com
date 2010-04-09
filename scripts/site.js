@@ -35,6 +35,27 @@ $(document).ready(function() {
 		this.get_content = get_content || function(entry) {
 			return '<a href="' + entry.link + '">' + entry.title + '</a>';
 		};
+		this.gfeed = new google.feeds.Feed(url);
+		this.tiles = [];
+		// Generate some tiles for this feed.
+		for (var i = 0; i < 4; i++) {
+			this.tiles.push(new Tile(tile_id, this));
+		}
+		
+		this.load = function() {
+			this.gfeed.load(function(result) {
+				if (!result.error) {
+					var length = Math.min(4, result.feed.entires.length);
+					for (var i = 0; i < length; i++) {
+						var entry = result.feed.entries[i];
+						var tile = this.tiles[i];
+						tile.set_content(entry);
+						content_tiles_queue.push(tile);
+					}
+				}
+			});
+		};
+
 	};
 	
 	var feeds = [
@@ -53,8 +74,6 @@ $(document).ready(function() {
 	
 	// Google Feed API brings back four entries per feed.
 	var num_tiles = feeds.length * 4;
-	// Decrement as tiles are filled with content.
-	var current_tile_index = num_tiles - 1;
 	// How much each tile swirls per frame.
 	var d_counter = 0.05;
 	// The width of where all the tiles are.
@@ -99,9 +118,8 @@ $(document).ready(function() {
 				});
 			};
 			
-			this.set_content = function(content) {
-				this.content = content;
-				content_tiles_queue.push(this);
+			this.set_content = function(entry) {
+				this.content = this.feedy.get_content(entry)
 			};
 			
 			this.x = Math.floor(Math.random() * tile_container_width);
@@ -173,16 +191,6 @@ $(document).ready(function() {
 	};
 	
 	var load_feed = function(feedy) {
-		var feed = new google.feeds.Feed(feedy.url);
-		feed.load(function(result) {
-			if (!result.error) {
-				for (var i = 0; i < result.feed.entries.length; i++) {
-					var entry = result.feed.entries[i];
-					var tile = all_tiles[current_tile_index];
-					current_tile_index -= 1;
-					tile.set_content(entry, feedy.name);
-				}
-			}
 		});
 	};
 	
@@ -225,7 +233,7 @@ $(document).ready(function() {
 				'top': tile_content_y + 'px',
 				'left': '10px'
 			}, 2000).
-			html(tile.content);
+			html('<div class="scoochtile">' + tile.content + '</div>');
 			tile_content_y += 25;
 		}
 	}, 500);
