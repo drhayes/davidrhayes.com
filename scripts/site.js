@@ -9,9 +9,6 @@ $(document).ready(function() {
 	var tile_container = $('<div id="tilecontainerouter"><div id="tilecontainerinner"></div></div>').
 		appendTo('#content').
 		children('#tilecontainerinner');
-	// This is where all the tiles are tracked. We use a dictionary
-	// so we can later remove the tiles.
-	var all_tiles = {};
 	// The queue of tiles that should be animated to the content area.
 	var content_tiles_queue = [];
 	// The numeric ID that is assigned to each tile as it is created.
@@ -136,16 +133,22 @@ $(document).ready(function() {
 	var num_tiles = feeds.length * 4;
 	
 	var swirl = function() {
+		var moved_any = false;
 		for (var i = 0; i < feeds.length; i++) {
 			var feed = feeds[i];
 			for (var j = 0; j < feed.tiles.length; j++) {
-				feed.tiles[j].move();
+				// Only move the tile if it has no content
+				var tile = feed.tiles[j];
+				if (!tile.animated) {
+					moved_any = true;
+					tile.move();
+				}
 			}
 		}
 		// Are we done swirling?
-		// if (!saw_any) {
-		// 	clearInterval(swirl_interval);
-		// }
+		if (!moved_any) {
+			clearInterval(swirl_interval);
+		}
 	};
 	
 	var unroll = function(funcs) {
@@ -215,7 +218,7 @@ $(document).ready(function() {
 		// Check to see if we have any tiles we need to animate.
 		var tile = content_tiles_queue.shift();
 		if (tile) {
-			delete(all_tiles[tile.tile_id]);
+			tile.animated = true;
 			tile.elem.css({
 				'opacity': '1.0',
 				'height': '20px',
