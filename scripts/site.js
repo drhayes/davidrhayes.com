@@ -18,62 +18,11 @@ $(document).ready(function() {
 	var tile_id = 0;
 	// Track the swirl interval.
 	var swirl_interval;
-	// Initial fade-in index.
-	var appear_index = 0;
 	// Initial fade-in interval.
 	var appear_interval;
-	
-	var tile_content_y = 0;
-	
-	var link_to_it = function(entry) {
-		return '<a href="' + entry.link + '">' + entry.title + '</a>';
-	};
-	
-	var Feed = function(name, url, get_content) {
-		this.name = name;
-		this.url = url;
-		this.get_content = get_content || function(entry) {
-			return '<a href="' + entry.link + '">' + entry.title + '</a>';
-		};
-		this.gfeed = new google.feeds.Feed(url);
-		this.tiles = [];
-		// Generate some tiles for this feed.
-		for (var i = 0; i < 4; i++) {
-			this.tiles.push(new Tile(tile_id, this));
-		}
-		
-		this.load = function() {
-			this.gfeed.load(function(result) {
-				if (!result.error) {
-					var length = Math.min(4, result.feed.entires.length);
-					for (var i = 0; i < length; i++) {
-						var entry = result.feed.entries[i];
-						var tile = this.tiles[i];
-						tile.set_content(entry);
-						content_tiles_queue.push(tile);
-					}
-				}
-			});
-		};
-
-	};
-	
-	var feeds = [
-		new Feed('twitter', 'http://twitter.com/statuses/user_timeline/681443.rss',
-			function(entry) {
-				var tweet = entry.content.substring('drhayes: '.length);
-				return ['<div class="iconhere">', ify.clean(tweet), '</div>'].join('');
-			}),
-		new Feed('posterous', 'http://feeds.feedburner.com/drhayes/blog'),
-		new Feed('flickr', 'http://api.flickr.com/services/feeds/photos_public.gne?id=84031065@N00&amp;lang=en-us&amp;format=atom'),
-		new Feed('delicious', 'http://feeds.delicious.com/v2/rss/drhayes?count=15'),
-		new Feed('greader', 'http://www.google.com/reader/public/atom/user%2F13856078743170169356%2Fstate%2Fcom.google%2Fbroadcast'),
-		new Feed('picasa', 'http://picasaweb.google.com/data/feed/base/user/drhayes?alt=rss&kind=album&hl=en_US&access=public'),
-		new Feed('lastfm', 'http://ws.audioscrobbler.com/1.0/user/drhayes9/recenttracks.rss')
-	];
-	
-	// Google Feed API brings back four entries per feed.
-	var num_tiles = feeds.length * 4;
+	// Where each piece of content appears as it comes in. Incremented as
+	// each piece of content is placed.
+	var tile_content_y = 0;	
 	// How much each tile swirls per frame.
 	var d_counter = 0.05;
 	// The width of where all the tiles are.
@@ -137,25 +86,64 @@ $(document).ready(function() {
 			this.elem.appendTo(tile_container);
 		};
 	})();
+
 	
-	for (var i=0; i < feeds.length; i++) {
-		var current_feed = feeds[i];
-		for (var j=0; j < 4; j++) {
-			all_tiles[tile_id] = new Tile(tile_id, current_feed);
-			tile_id += 1;
+	var Feed = function(name, url, get_content) {
+		this.name = name;
+		this.url = url;
+		this.get_content = get_content || function(entry) {
+			return '<a href="' + entry.link + '">' + entry.title + '</a>';
+		};
+		this.gfeed = new google.feeds.Feed(url);
+		this.tiles = [];
+		// Generate some tiles for this feed.
+		for (var i = 0; i < 4; i++) {
+			this.tiles.push(new Tile(tile_id, this));
 		}
+		
+		this.load = function() {
+			this.gfeed.load(function(result) {
+				if (!result.error) {
+					var length = Math.min(4, result.feed.entries.length);
+					for (var i = 0; i < length; i++) {
+						var entry = result.feed.entries[i];
+						var tile = this.tiles[i];
+						tile.set_content(entry);
+						content_tiles_queue.push(tile);
+					}
+				}
+			});
+		};
+
 	};
 	
+	var feeds = [
+		new Feed('twitter', 'http://twitter.com/statuses/user_timeline/681443.rss',
+			function(entry) {
+				var tweet = entry.content.substring('drhayes: '.length);
+				return ['<div class="iconhere">', ify.clean(tweet), '</div>'].join('');
+			}),
+		new Feed('posterous', 'http://feeds.feedburner.com/drhayes/blog'),
+		new Feed('flickr', 'http://api.flickr.com/services/feeds/photos_public.gne?id=84031065@N00&amp;lang=en-us&amp;format=atom'),
+		new Feed('delicious', 'http://feeds.delicious.com/v2/rss/drhayes?count=15'),
+		new Feed('greader', 'http://www.google.com/reader/public/atom/user%2F13856078743170169356%2Fstate%2Fcom.google%2Fbroadcast'),
+		new Feed('picasa', 'http://picasaweb.google.com/data/feed/base/user/drhayes?alt=rss&kind=album&hl=en_US&access=public'),
+		new Feed('lastfm', 'http://ws.audioscrobbler.com/1.0/user/drhayes9/recenttracks.rss')
+	];
+	// Google Feed API brings back four entries per feed.
+	var num_tiles = feeds.length * 4;
+	
 	var swirl = function() {
-		var saw_any = false;
-		for (var id in all_tiles) {
-			all_tiles[id].move();
-			saw_any = true;
+		for (var i = 0; i < feeds.length; i++) {
+			var feed = feeds[i];
+			for (var j = 0; j < feed.tiles.length; j++) {
+				feed.tiles[j].move();
+			}
 		}
 		// Are we done swirling?
-		if (!saw_any) {
-			clearInterval(swirl_interval);
-		}
+		// if (!saw_any) {
+		// 	clearInterval(swirl_interval);
+		// }
 	};
 	
 	var unroll = function(funcs) {
@@ -190,21 +178,25 @@ $(document).ready(function() {
 		push_letters(line, inner, callback);
 	};
 	
-	var load_feed = function(feedy) {
-		});
-	};
-	
 	// don't start everything for a bit...
 	setTimeout(function() {
 		terminal_type(
 			'David Hayes\' Social Swirl',
 			function() {
 				swirl_interval = setInterval(swirl, 33);
+				var feed_index = 0;
+				var tile_index = 0;
 				// Iterate through the tiles slowly, displaying them one at a time.
 				appear_interval = setInterval(function() {
-					all_tiles[appear_index].elem.show();
-					appear_index += 1;
-					if (appear_index === num_tiles) {
+					var feed = feeds[feed_index];
+					var tile = feed.tiles[tile_index];
+					tile.elem.show();
+					tile_index += 1;
+					if (tile_index > feed.tiles.length - 1) {
+						tile_index = 0;
+						feed_index += 1;
+					}
+					if (feed_index > feeds.length - 1) {
 						clearInterval(appear_interval);
 					}
 				}, 200);
@@ -213,7 +205,7 @@ $(document).ready(function() {
 	
 	setTimeout(function() {
 		for (var i=0; i < feeds.length; i++) {
-			load_feed(feeds[i]);
+			feeds[i].load();
 		};
 	}, 10000);
 	
