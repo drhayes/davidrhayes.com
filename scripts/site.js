@@ -102,12 +102,14 @@ $(document).ready(function() {
 		}
 		
 		this.load = function() {
+			// Get closure working for us on this one...
+			var tiles = this.tiles;
 			this.gfeed.load(function(result) {
 				if (!result.error) {
 					var length = Math.min(4, result.feed.entries.length);
 					for (var i = 0; i < length; i++) {
 						var entry = result.feed.entries[i];
-						var tile = this.tiles[i];
+						var tile = tiles[i];
 						tile.set_content(entry);
 						content_tiles_queue.push(tile);
 					}
