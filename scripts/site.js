@@ -165,24 +165,11 @@ $(document).ready(function() {
 		}, 50);
 	};
 
-	var terminal_type = function(lines, callback) {
-		if (!$.isArray(lines)) {
-			lines = [lines];
-		}
-		var typings = [];
-		for (var i=0, len = lines.length; i < len; i++) {
-			var typing = (function(line) {
-				return function(callback) {
-					var elem = $('<span class="termouter withcursor"><p class="terminner"></p></span><br />');
-					$(elem).appendTo('#terminal');
-					var inner = $(elem).children('.terminner');
-					push_letters(line, inner, callback);
-				};
-			})(lines[i]);
-			typings.push(typing);
-		};
-		typings.push(callback);
-		(unroll(typings))();
+	var terminal_type = function(line, callback) {
+		var elem = $('<span class="termouter withcursor"><p class="terminner"></p></span><br />');
+		$(elem).appendTo('#terminal');
+		var inner = $(elem).children('.terminner');
+		push_letters(line, inner, callback);
 	};
 	
 	var load_feed = function(feedy) {
@@ -202,7 +189,7 @@ $(document).ready(function() {
 	// don't start everything for a bit...
 	setTimeout(function() {
 		terminal_type(
-			['David Hayes\' Social Swirl'],
+			'David Hayes\' Social Swirl',
 			function() {
 				swirl_interval = setInterval(swirl, 33);
 				// Iterate through the tiles slowly, displaying them one at a time.
