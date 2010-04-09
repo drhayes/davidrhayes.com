@@ -29,39 +29,26 @@ $(document).ready(function() {
 		return '<a href="' + entry.link + '">' + entry.title + '</a>';
 	};
 	
+	var Feed = function(name, url, get_content) {
+		this.name = name;
+		this.url = url;
+		this.get_content = get_content || function(entry) {
+			return '<div class="iconhere"><a href="' + entry.link + '">' + entry.title + '</a></div>';
+		};
+	};
+	
 	var feeds = [
-		{
-			'name': 'twitter',
-			'url': 'http://twitter.com/statuses/user_timeline/681443.rss',
-			'get_content': function(entry) {
+		new Feed('twitter', 'http://twitter.com/statuses/user_timeline/681443.rss',
+			function(entry) {
 				var tweet = entry.content.substring('drhayes: '.length);
 				return ['<div class="iconhere">', ify.clean(tweet), '</div>'].join('');
-			}
-		},
-		{
-			'name': 'posterous',
-			'url': 'http://feeds.feedburner.com/drhayes/blog'
-		},
-		{
-			'name': 'flickr',
-			'url': 'http://api.flickr.com/services/feeds/photos_public.gne?id=84031065@N00&amp;lang=en-us&amp;format=atom'
-		},
-		{
-			'name': 'delicious',
-			'url': 'http://feeds.delicious.com/v2/rss/drhayes?count=15'
-		},
-		{
-			'name': 'greader',
-			'url': 'http://www.google.com/reader/public/atom/user%2F13856078743170169356%2Fstate%2Fcom.google%2Fbroadcast'
-		},
-		{
-			'name': 'picasa',
-			'url': 'http://picasaweb.google.com/data/feed/base/user/drhayes?alt=rss&kind=album&hl=en_US&access=public'
-		},
-		{
-			'name': 'lastfm',
-			'url': 'http://ws.audioscrobbler.com/1.0/user/drhayes9/recenttracks.rss'
-		}
+			}),
+		new Feed('posterous', 'http://feeds.feedburner.com/drhayes/blog'),
+		new Feed('flickr', 'http://api.flickr.com/services/feeds/photos_public.gne?id=84031065@N00&amp;lang=en-us&amp;format=atom'),
+		new Feed('delicious', 'http://feeds.delicious.com/v2/rss/drhayes?count=15'),
+		new Feed('greader', 'http://www.google.com/reader/public/atom/user%2F13856078743170169356%2Fstate%2Fcom.google%2Fbroadcast'),
+		new Feed('picasa', 'http://picasaweb.google.com/data/feed/base/user/drhayes?alt=rss&kind=album&hl=en_US&access=public'),
+		new Feed('lastfm', 'http://ws.audioscrobbler.com/1.0/user/drhayes9/recenttracks.rss')
 	];
 	
 	// Google Feed API brings back four entries per feed.
@@ -85,11 +72,13 @@ $(document).ready(function() {
 		var left = Math.PI / 2;
 		var right = 3 * Math.PI / 2;
 		
-		return function() {
+		return function(tile_id, feedy) {
 			var secret_counter = 0;
 			// Don't let rate of speed exceed 1
 			this.rate_of_speed = Math.min(Math.random() + 0.3, 1);
 			this.movement_range = MOVEMENT_RANGE * this.rate_of_speed;
+			this.tile_id = tile_id;
+			this.feedy = feedy;
 			
 			this.move = function() {
 				var siny = Math.sin(secret_counter);
@@ -110,9 +99,8 @@ $(document).ready(function() {
 				});
 			};
 			
-			this.set_content = function(content, feedy_name) {
+			this.set_content = function(content) {
 				this.content = content;
-				this.feedy_name = feedy_name;
 				content_tiles_queue.push(this);
 			};
 			
@@ -129,14 +117,15 @@ $(document).ready(function() {
 			this.elem = $('<div class="tile"></div>');
 			this.move();
 			this.elem.appendTo(tile_container);
-			this.tile_id = tile_id;
-			all_tiles[this.tile_id] = this;
-			tile_id += 1;
 		};
 	})();
 	
-	for (var i=0; i < num_tiles; i++) {
-		new Tile();
+	for (var i=0; i < feeds.length; i++) {
+		var current_feed = feeds[i];
+		for (var j=0; j < 4; j++) {
+			all_tiles[tile_id] = new Tile(tile_id, current_feed);
+			tile_id += 1;
+		}
 	};
 	
 	var swirl = function() {
@@ -197,9 +186,6 @@ $(document).ready(function() {
 	};
 	
 	var load_feed = function(feedy) {
-		var get_content = feedy.get_content || function(entry) {
-			return '<div class="iconhere"><a href="' + entry.link + '">' + entry.title + '</a></div>';
-		};
 		var feed = new google.feeds.Feed(feedy.url);
 		feed.load(function(result) {
 			if (!result.error) {
@@ -207,7 +193,7 @@ $(document).ready(function() {
 					var entry = result.feed.entries[i];
 					var tile = all_tiles[current_tile_index];
 					current_tile_index -= 1;
-					tile.set_content(get_content(entry), feedy.name);
+					tile.set_content(entry, feedy.name);
 				}
 			}
 		});
