@@ -208,6 +208,27 @@ $(document).ready(function() {
 		push_letters(line, inner, callback);
 	};
 	
+	var animate_tiles = function() {
+		// Check to see if we have any tiles we need to animate.
+		var tile = content_tiles_queue.dequeue();
+		if (tile) {
+			tile.animated = true;
+			tile.elem.css({
+				'opacity': '1.0',
+				'height': '20px',
+				'width': '100%',
+				'border': '0',
+				'-webkit-transform': 'rotate3d(0,1,0,0rad)'
+			}).
+			animate({
+				'top': tile_content_y + 'px',
+				'left': '10px'
+			}, 2000).
+			html('<div class="scoochtile">' + tile.content + '</div>');
+			tile_content_y += 25;
+		}
+	};
+	
 	// don't start everything for a bit...
 	setTimeout(function() {
 		terminal_type(
@@ -237,26 +258,5 @@ $(document).ready(function() {
 		for (var i=0; i < feeds.length; i++) {
 			feeds[i].load();
 		};
-	}, 10000);
-	
-	setInterval(function() {
-		// Check to see if we have any tiles we need to animate.
-		var tile = content_tiles_queue.dequeue();
-		if (tile) {
-			tile.animated = true;
-			tile.elem.css({
-				'opacity': '1.0',
-				'height': '20px',
-				'width': '100%',
-				'border': '0',
-				'-webkit-transform': 'rotate3d(0,1,0,0rad)'
-			}).
-			animate({
-				'top': tile_content_y + 'px',
-				'left': '10px'
-			}, 2000).
-			html('<div class="scoochtile">' + tile.content + '</div>');
-			tile_content_y += 25;
-		}
-	}, 500);
+	}, 10000);	
 });
