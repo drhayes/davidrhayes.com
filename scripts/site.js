@@ -65,6 +65,7 @@ $(document).ready(function() {
 			};
 			
 			this.set_content = function(entry) {
+				this.date = entry.publishedDate;
 				this.content = this.feedy.get_content(entry)
 			};
 			
