@@ -41,7 +41,7 @@ $(document).ready(function() {
 			this.dequeue = function() {
 				// Before anything is pulled off, do we need to sort?
 				if (need_to_sort) {
-					queue.sort(function(x, y) {
+					queue = queue.sort(function(x, y) {
 						return x.date < y.date;
 					});
 					need_to_sort = false;
