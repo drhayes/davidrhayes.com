@@ -127,7 +127,8 @@ $(document).ready(function() {
 		new Feed('delicious', 'http://feeds.delicious.com/v2/rss/drhayes?count=15'),
 		new Feed('greader', 'http://www.google.com/reader/public/atom/user%2F13856078743170169356%2Fstate%2Fcom.google%2Fbroadcast'),
 		new Feed('picasa', 'http://picasaweb.google.com/data/feed/base/user/drhayes?alt=rss&kind=album&hl=en_US&access=public'),
-		new Feed('lastfm', 'http://ws.audioscrobbler.com/1.0/user/drhayes9/recenttracks.rss')
+		new Feed('lastfm', 'http://ws.audioscrobbler.com/1.0/user/drhayes9/recenttracks.rss'),
+		new Feed('goodreads', 'http://www.goodreads.com/review/list_rss/1122867?key=44795ad719eb44d6536ffac2a3c109fb4baaa6cc&amp;shelf=%23ALL%23')
 	];
 	// Google Feed API brings back four entries per feed.
 	var num_tiles = feeds.length * 4;
