@@ -9,8 +9,6 @@ $(document).ready(function() {
 	var tile_container = $('<div id="tilecontainerouter"><div id="tilecontainerinner"></div></div>').
 		appendTo('#content').
 		children('#tilecontainerinner');
-	// The queue of tiles that should be animated to the content area.
-	var content_tiles_queue = [];
 	// The numeric ID that is assigned to each tile as it is created.
 	var tile_id = 0;
 	// Track the swirl interval.
@@ -28,6 +26,31 @@ $(document).ready(function() {
 	var tile_container_height = $('#tilecontainerouter').height();
 	// How much each tile can move around.
 	var MOVEMENT_RANGE = tile_container_width / 2.11;
+
+	var ContentQueue = (function() {
+		var queue = [];
+		var need_to_sort = true;
+		return function() {
+			this.enqueue = function(tile) {
+				queue.push(tile);
+				need_to_sort = true;
+			};
+			
+			this.dequeue = function() {
+				// Before anything is pulled off, do we need to sort?
+				if (need_to_sort) {
+					queue.sort(function(x, y) {
+						return x.date < y.date;
+					});
+					need_to_sort = false;
+				}
+				return queue.shift();
+			};
+		};
+	})();
+
+	// The queue of tiles that should be animated to the content area.
+	var content_tiles_queue = new ContentQueue();
 
 	var Tile = (function() {
 		var start_x = tile_container_width / 2;
@@ -65,7 +88,7 @@ $(document).ready(function() {
 			};
 			
 			this.set_content = function(entry) {
-				this.date = entry.publishedDate;
+				this.date = new Date(entry.publishedDate);
 				this.content = this.feedy.get_content(entry)
 			};
 			
@@ -84,7 +107,6 @@ $(document).ready(function() {
 			this.elem.appendTo(tile_container);
 		};
 	})();
-
 	
 	var Feed = function(name, url, get_content) {
 		this.name = name;
@@ -109,12 +131,11 @@ $(document).ready(function() {
 						var entry = result.feed.entries[i];
 						var tile = tiles[i];
 						tile.set_content(entry);
-						content_tiles_queue.push(tile);
+						content_tiles_queue.enqueue(tile);
 					}
 				}
 			});
 		};
-
 	};
 	
 	var feeds = [
@@ -218,7 +239,7 @@ $(document).ready(function() {
 	
 	setInterval(function() {
 		// Check to see if we have any tiles we need to animate.
-		var tile = content_tiles_queue.shift();
+		var tile = content_tiles_queue.dequeue();
 		if (tile) {
 			tile.animated = true;
 			tile.elem.css({
