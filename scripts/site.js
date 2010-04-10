@@ -26,7 +26,9 @@ $(document).ready(function() {
 	var tile_container_height = $('#tilecontainerouter').height();
 	// How much each tile can move around.
 	var MOVEMENT_RANGE = tile_container_width / 2.11;
-
+	// This queue does the best it can to keep things sorted by date, but
+	// I don't know when everything is coming in so things can get out of
+	// order.
 	var ContentQueue = (function() {
 		var queue = [];
 		var need_to_sort = true;
@@ -88,7 +90,7 @@ $(document).ready(function() {
 			};
 			
 			this.set_content = function(entry) {
-				this.date = new Date(entry.publishedDate);
+				this.date = Date.parse(entry.publishedDate);
 				this.content = this.feedy.get_content(entry)
 			};
 			

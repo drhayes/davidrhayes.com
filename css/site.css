@@ -96,3 +96,7 @@ a:hover, a:active {
 .lastfm {
 	background-image: url('../images/icons/lastfm.png');
 }
+
+.goodreads {
+	background-image: url('../images/icons/goodreads.png');
+}
