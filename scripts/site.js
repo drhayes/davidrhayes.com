@@ -9,6 +9,8 @@ $(document).ready(function() {
 	var tile_container = $('<div id="tilecontainerouter"><div id="tilecontainerinner"></div></div>').
 		appendTo('#content').
 		children('#tilecontainerinner');
+	// Container of list of contents.
+	var content_container = $('<ol></ol>').appendTo('#content');
 	// Track the swirl interval.
 	var swirl_interval;
 	// Initial fade-in interval.
@@ -96,6 +98,10 @@ $(document).ready(function() {
 			
 			this.toString = function() {
 				return this.date + ' ' + this.content;
+			};
+			
+			this.get_content = function() {
+				return '<div class="scoochtile">' + this.content + '</div>';
 			};
 			
 			this.x = Math.floor(Math.random() * tile_container_width);
@@ -221,6 +227,18 @@ $(document).ready(function() {
 		// Check to see if we have any tiles we need to animate.
 		var tile = content_tiles_queue.dequeue();
 		if (tile) {
+			var content_item = $('<li class="contentitem"></li>').
+				appendTo(content_container).
+				html(tile.content);
+				var replace_tile = (function(tile, content_item) {
+					return function() {
+						content_item.html(tile.get_content()).
+						css({
+							'visibility': 'visible'
+						});
+						tile.elem.remove();
+					};
+				})(tile, content_item);
 			tile.animated = true;
 			tile.elem.css({
 				'opacity': '1.0',
@@ -230,10 +248,12 @@ $(document).ready(function() {
 				'-webkit-transform': 'rotate3d(0,1,0,0rad)'
 			}).
 			animate({
-				'top': tile_content_y + 'px',
+				'top': content_item.offset().top + 'px',
 				'left': '10px'
-			}, 2000).
-			html('<div class="scoochtile">' + tile.content + '</div>');
+			}, 2000, function() {
+				replace_tile();
+			}).
+			html(tile.get_content());
 			tile_content_y += 25;
 		}
 	};
