@@ -98,7 +98,7 @@ $(document).ready(function() {
 			};
 			
 			this.get_content = function() {
-				return '<div class="iconhere scoochtile ' + this.feedy.name + '">' + this.content + '</div>';
+				return this.content;
 			};
 			
 			this.x = Math.floor(Math.random() * tile_container_width);
@@ -111,7 +111,7 @@ $(document).ready(function() {
 			if (Math.random() > 0.5) {
 				secret_counter += Math.PI;
 			}
-			this.elem = $('<div class="tile iconhere ' + this.feedy.name + '"></div>');
+			this.elem = $('<div class="tile iconhere scoochtile ' + this.feedy.name + '"></div>');
 			this.move();
 			this.elem.appendTo(tile_container);
 		};
@@ -156,7 +156,7 @@ $(document).ready(function() {
 		new Feed('twitter', 'http://twitter.com/statuses/user_timeline/681443.rss',
 			function(entry) {
 				var tweet = entry.content.substring('drhayes: '.length);
-				return ['<div class="iconhere">', ify.clean(tweet), '</div>'].join('');
+				return ify.clean(tweet);
 			}),
 		new Feed('posterous', 'http://feeds.feedburner.com/drhayes/blog'),
 		new Feed('flickr', 'http://api.flickr.com/services/feeds/photos_public.gne?id=84031065@N00&amp;lang=en-us&amp;format=atom'),
@@ -224,7 +224,7 @@ $(document).ready(function() {
 		// Check to see if we have any tiles we need to animate.
 		var tile = content_tiles_queue.dequeue();
 		if (tile) {
-			var content_item = $('<li class="contentitem"></li>').
+			var content_item = $('<li class="contentitem iconhere scoochtile ' + tile.feedy.name + '"></li>').
 				appendTo(content_container).
 				html(tile.content);
 				var replace_tile = (function(tile, content_item) {
