@@ -43,7 +43,6 @@ $(document).ready(function() {
 			this.dequeue = function() {
 				// Before anything is pulled off, do we need to sort?
 				if (need_to_sort) {
-					console.log('sorting');
 					// Sort in reverse chronological order.
 					queue = queue.sort(function(x, y) {
 						return y.date - x.date;
@@ -96,7 +95,6 @@ $(document).ready(function() {
 			this.set_content = function(entry) {
 				this.date = Date.parse(entry.publishedDate);
 				this.content = this.feedy.get_content(entry)
-				console.log('content set - ' + this.feedy.name + ' ' + this.date);
 			};
 			
 			this.toString = function() {
@@ -133,7 +131,6 @@ $(document).ready(function() {
 		}
 		
 		this.load = function() {
-			console.log('Loading ' + this.name);
 			// Get closure working for us on this one...
 			var tiles = this.tiles;
 			var me = this;
@@ -148,7 +145,6 @@ $(document).ready(function() {
 					}
 				}
 				if (animate_tiles_timeout) {
-					console.log('reset');
 					clearTimeout(animate_tiles_timeout);
 				}
 				animate_tiles_timeout = setTimeout(start_animating_tiles, 2000);
@@ -228,7 +224,6 @@ $(document).ready(function() {
 		// Check to see if we have any tiles we need to animate.
 		var tile = content_tiles_queue.dequeue();
 		if (tile) {
-			console.log(tile.toString());
 			tile.animated = true;
 			tile.elem.css({
 				'opacity': '1.0',
@@ -247,7 +242,6 @@ $(document).ready(function() {
 	};
 	
 	var start_animating_tiles = function() {
-		console.log('start animating');
 		setInterval(animate_tiles, 500);
 	};
 	
