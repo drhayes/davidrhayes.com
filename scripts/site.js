@@ -9,8 +9,6 @@ $(document).ready(function() {
 	var tile_container = $('<div id="tilecontainerouter"><div id="tilecontainerinner"></div></div>').
 		appendTo('#content').
 		children('#tilecontainerinner');
-	// The numeric ID that is assigned to each tile as it is created.
-	var tile_id = 0;
 	// Track the swirl interval.
 	var swirl_interval;
 	// Initial fade-in interval.
@@ -65,12 +63,11 @@ $(document).ready(function() {
 		var left = Math.PI / 2;
 		var right = 3 * Math.PI / 2;
 		
-		return function(tile_id, feedy) {
+		return function(feedy) {
 			var secret_counter = 0;
 			// Don't let rate of speed exceed 1
 			this.rate_of_speed = Math.min(Math.random() + 0.3, 1);
 			this.movement_range = MOVEMENT_RANGE * this.rate_of_speed;
-			this.tile_id = tile_id;
 			this.feedy = feedy;
 			
 			this.move = function() {
@@ -127,7 +124,7 @@ $(document).ready(function() {
 		this.tiles = [];
 		// Generate some tiles for this feed.
 		for (var i = 0; i < 4; i++) {
-			this.tiles.push(new Tile(tile_id, this));
+			this.tiles.push(new Tile(this));
 		}
 		
 		this.load = function() {
@@ -274,6 +271,5 @@ $(document).ready(function() {
 		for (var i=0; i < feeds.length; i++) {
 			feeds[i].load();
 		};
-		// Start the timeout for when I start pulling content
 	}, 10000);
 });
