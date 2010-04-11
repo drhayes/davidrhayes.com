@@ -42,12 +42,8 @@ a:hover, a:active {
 }
 
 #tilecontainerouter {
-	position: aboslute;
-	top: 0;
-	left: 0;
-	min-height: 300px;
+	height: 300px;
 	width: 100%;
-	float: left;
 }
 
 #tilecontainerinner {
@@ -102,6 +98,10 @@ a:hover, a:active {
 
 .goodreads {
 	background-image: url('../images/icons/goodreads.png');
+}
+
+.contentcontainer {
+	margin-top: -300px;
 }
 
 .contentitem {

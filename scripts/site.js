@@ -10,7 +10,7 @@ $(document).ready(function() {
 		appendTo('#content').
 		children('#tilecontainerinner');
 	// Container of list of contents.
-	var content_container = $('<ol></ol>').appendTo('#content');
+	var content_container = $('<ol class="contentcontainer"></ol>').appendTo('#content');
 	// Track the swirl interval.
 	var swirl_interval;
 	// Initial fade-in interval.
@@ -101,7 +101,7 @@ $(document).ready(function() {
 			};
 			
 			this.get_content = function() {
-				return '<div class="scoochtile">' + this.content + '</div>';
+				return '<div class="iconhere scoochtile ' + this.feedy.name + '">' + this.content + '</div>';
 			};
 			
 			this.x = Math.floor(Math.random() * tile_container_width);
