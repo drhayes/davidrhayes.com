@@ -105,5 +105,7 @@ a:hover, a:active {
 }
 
 .contentitem {
+	padding-top: 1px;
 	visibility: hidden;
+	height: 20px;
 }
