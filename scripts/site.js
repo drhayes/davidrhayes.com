@@ -15,9 +15,6 @@ $(document).ready(function() {
 	var swirl_interval;
 	// Initial fade-in interval.
 	var appear_interval;
-	// Where each piece of content appears as it comes in. Incremented as
-	// each piece of content is placed.
-	var tile_content_y = 0;	
 	// How much each tile swirls per frame.
 	var d_counter = 0.05;
 	// The width of where all the tiles are.
@@ -244,17 +241,15 @@ $(document).ready(function() {
 				'opacity': '1.0',
 				'height': '20px',
 				'width': '100%',
-				'border': '0',
 				'-webkit-transform': 'rotate3d(0,1,0,0rad)'
 			}).
 			animate({
-				'top': content_item.offset().top + 'px',
-				'left': '10px'
+				'top': (content_item.offset().top - 52) + 'px',
+				'left': '0px'
 			}, 2000, function() {
 				replace_tile();
 			}).
 			html(tile.get_content());
-			tile_content_y += 25;
 		}
 	};
 	
