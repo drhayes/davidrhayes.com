@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% if site.title %}<title>{% if title %}{{ title }} &ndash; {% endif %}{{ site.title }}{% if not title and site.subtitle %} &ndash; {{ site.subtitle }}{% endif %}</title>{% endif %}
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+</head>
+<body>
+    <div id="container">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>
