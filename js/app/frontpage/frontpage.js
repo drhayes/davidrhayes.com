@@ -31,8 +31,12 @@ define([
       var hash = location.hash.substring(1);
       if (self.apps.hasOwnProperty(hash)) {
         var app = self.apps[hash];
-        app();
+        self.appTransition(app);
       }
+    };
+
+    self.appTransition = function(app) {
+      $('#app').fadeOut(app);
     };
   };
 
