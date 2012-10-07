@@ -1,12 +1,12 @@
+/*global window, location, $, define */
 define([
   'underscore',
   'handlebars',
   'text!frontpage/template.html',
-  'resources/resources',
+  'resources/app',
   // Don't need to ref anything below this.
   'hashchange'
 ], function(_, Handlebars, text, resourcesApp) {
-
   "use strict";
 
   var Frontpage = function() {
@@ -36,7 +36,11 @@ define([
     };
 
     self.appTransition = function(app) {
-      $('#app').fadeOut(app);
+      var $app = $('#app');
+      $app.fadeOut('fast', function() {
+        app();
+        $app.fadeIn('slow');
+      });
     };
   };
 

@@ -1,7 +1,17 @@
+/*global $, define */
 define([
-], function() {
+  'handlebars',
+  'text!resources/template.html'
+], function(Handlebars, text) {
+  "use strict";
+
   return function() {
-    // Activate the resources app.
-    console.log('resources!');
+    var self = this;
+
+    self.template = Handlebars.compile(text);
+
+    self.init = function() {
+      $('#app').html(self.template);
+    };
   };
 });
