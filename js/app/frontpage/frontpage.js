@@ -24,14 +24,18 @@ define([
       // Start tracking the hash.
       $(window).hashchange(self.selectApp, self);
       // Of course, the hash might already have something...
-      self.selectApp();
+      self.selectApp(false);
     };
 
-    self.selectApp = function() {
+    self.selectApp = function(transition) {
       var hash = location.hash.substring(1);
       if (self.apps.hasOwnProperty(hash)) {
         var app = self.apps[hash];
-        self.appTransition(app);
+        if (transition) {
+          self.appTransition(app);
+        } else {
+          app();
+        }
       }
     };
 
