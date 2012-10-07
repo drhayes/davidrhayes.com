@@ -1,0 +1,19 @@
+<style type="text/css">
+  .experiments {
+    border-bottom: 1px solid #999;
+  }
+</style>
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span4 offset4">
+      <div class="well">
+        <p class="experiments"><i class="icon-beaker"></i> Experiments</p>
+        <ul class="unstyled" data-bind="foreach: experiments">
+          <li>
+            <a data-bind="attr: { href: url }, text: name"></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
