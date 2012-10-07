@@ -1,21 +1,40 @@
 define([
-  'knockout',
+  'underscore',
   'handlebars',
-  'registry',
   'text!frontpage/template.html',
-  'resources/resources'
-], function(ko, Handlebars, registry, text) {
+  'resources/resources',
+  // Don't need to ref anything below this.
+  'hashchange'
+], function(_, Handlebars, text, resourcesApp) {
 
-  var FrontPage = function() {
+  "use strict";
+
+  var Frontpage = function() {
     var self = this;
-    // Render the template.
+
     self.template = Handlebars.compile(text);
-    $('#app').html(self.template);
+    self.apps = {
+      resources: resourcesApp
+    };
 
-    self.experiments = registry;
+    self.init = function() {
+      // Render the template.
+      $('#app').html(self.template);
 
-    ko.applyBindings(self);
+      // Start tracking the hash.
+      $(window).hashchange(self.selectApp, self);
+      // Of course, the hash might already have something...
+      self.selectApp();
+    };
+
+    self.selectApp = function() {
+      var hash = location.hash.substring(1);
+      if (self.apps.hasOwnProperty(hash)) {
+        var app = self.apps[hash];
+        app();
+      }
+    };
   };
 
-  return FrontPage;
+  return Frontpage;
 });

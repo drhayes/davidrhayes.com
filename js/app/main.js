@@ -1,3 +1,4 @@
 require(['frontpage/frontpage'], function(Frontpage) {
-  var f = new Frontpage();
+  var frontpage = new Frontpage();
+  frontpage.init();
 });

@@ -1,8 +1,7 @@
 define([
-  'registry'
-], function(registry) {
-  registry.push({
-    name: 'resources',
-    url: '#resources'
-  });
+], function() {
+  return function() {
+    // Activate the resources app.
+    console.log('resources!');
+  };
 });
