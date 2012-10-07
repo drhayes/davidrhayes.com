@@ -4,7 +4,9 @@ define([
   'handlebars',
   'text!resources/template.html',
   'resources/nodeField',
-  'resources/generator'
+  'resources/generator',
+  // Nothing below here in arguments list.
+  'resources/ko.baseNode'
 ], function(ko, Handlebars, text, NodeField, Generator) {
   "use strict";
 

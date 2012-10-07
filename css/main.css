@@ -1042,4 +1042,5 @@ ul.icons li .icon-large:before,ul.icons li .icon-large:before{vertical-align:ini
 .icon-umbrella:before{content:"\f0e9";}
 .icon-paste:before{content:"\f0ea";}
 .icon-user-md:before{content:"\f200";}
+#node-field{position:relative;width:100%;height:900px;}
 .node{position:absolute;width:60px;height:60px;background-color:#dddddd;border:1px solid #cccccc;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;}
