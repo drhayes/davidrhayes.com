@@ -1,12 +1,7 @@
-<div class="container-fluid">
-  <div class="row-fluid">
-    <h1 class="page-header">Resources</h1>
-  </div>
-  <div id="node-field" class="row-fluid" data-bind="foreach: nodes">
-    <div class="node" data-bind="baseNode: $data">
-      <div data-bind="if: maxPoints, click: $parent.select">
-        <span data-bind="text: points"></span>/<span data-bind="text: maxPoints"></span>
-      </div>
+<div id="node-field" class="row-fluid" data-bind="nodeViewport: viewport, foreach: nodes">
+  <div class="node" data-bind="baseNode: $data">
+    <div data-bind="if: maxPoints, click: $parent.select">
+      <span data-bind="text: points"></span>/<span data-bind="text: maxPoints"></span>
     </div>
   </div>
 </div>
