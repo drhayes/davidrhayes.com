@@ -5,11 +5,13 @@ define([
 
   var updateDimensions = function($element, node, viewport) {
     // Base the node's view dimensions on the viewport state.
-    var x = node.x() + viewport.halfWidth();
-    var y = node.y() + viewport.halfHeight();
+    var x = viewport.centerX() + node.x() + viewport.halfWidth();
+    var y = viewport.centerY() + node.y() + viewport.halfHeight();
     $element
       .css('left', x)
-      .css('top', y);
+      .css('top', y)
+      .width(40)
+      .height(40);
     };
 
   ko.bindingHandlers.baseNode = {
