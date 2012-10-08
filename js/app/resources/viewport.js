@@ -17,8 +17,5 @@ define([
     self.halfHeight = ko.computed(function() {
       return self.height() / 2;
     });
-    // Multiply all sizes by this factor
-    // before displaying.
-    self.zoom = ko.observable(1);
   };
 });

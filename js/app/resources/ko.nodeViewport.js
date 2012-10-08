@@ -20,20 +20,20 @@ define([
     $(element)
       .mousedown(function(event) {
         dragging = true;
-        currentX = event.offsetX;
-        currentY = event.offsetY;
+        currentX = event.clientX;
+        currentY = event.clientY;
       })
       .mouseup(function() {
         dragging = false;
       })
       .mousemove(function(event) {
         if (dragging) {
-          var dx = currentX - event.offsetX;
-          var dy = currentY - event.offsetY;
+          var dx = currentX - event.clientX;
+          var dy = currentY - event.clientY;
           viewport.centerX(viewport.centerX() - dx);
           viewport.centerY(viewport.centerY() - dy);
-          currentX = event.offsetX;
-          currentY = event.offsetY;
+          currentX = event.clientX;
+          currentY = event.clientY;
         }
       });
   };
