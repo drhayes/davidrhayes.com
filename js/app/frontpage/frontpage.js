@@ -1,25 +1,23 @@
 /*global window, location, $, define */
 define([
   'underscore',
-  'handlebars',
   'text!frontpage/template.html',
   'resources/app',
   // Don't need to ref anything below this.
   'hashchange'
-], function(_, Handlebars, text, resourcesApp) {
+], function(_, template, resourcesApp) {
   "use strict";
 
   var Frontpage = function() {
     var self = this;
 
-    self.template = Handlebars.compile(text);
     self.apps = {
       resources: resourcesApp
     };
 
     self.init = function() {
       // Render the template.
-      $('#app').html(self.template);
+      $('#app').html(template);
 
       // Start tracking the hash.
       $(window).hashchange(self.selectApp, self);
