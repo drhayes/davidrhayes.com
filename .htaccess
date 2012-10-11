@@ -1,2 +1,2 @@
 RewriteEngine on
-RewriteRule ^/js/app/(.*)   /js/dist/(.*)
+RewriteRule ^js/app/(.*)$ http://davidrhayes.com/js/dist/$1 [R=301,L]
