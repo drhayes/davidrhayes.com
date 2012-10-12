@@ -1,7 +1,20 @@
-<div id="node-field" class="row-fluid" data-bind="nodeViewport: viewport, foreach: nodes">
-  <div class="node" data-bind="baseNode: $data">
-    <div data-bind="if: maxPoints, click: $parent.select">
-      <span data-bind="text: points"></span>/<span data-bind="text: maxPoints"></span>
-    </div>
+<div id="node-field" class="row-fluid" data-bind="nodeViewport: viewport">
+
+  <div id="stats">
+    <ul>
+      <li>
+        <i class="icon-bolt"></i>
+        <span data-bind="text: generatorPoints() + '/' + maxGeneratorPoints()"></span>
+      </li>
+    </ul>
   </div>
+
+  <ul data-bind="foreach: nodes">
+    <li class="node" data-bind="baseNode: $data">
+      <div data-bind="if: maxPoints, click: $parent.select">
+        <i class="icon-bolt" data-bind="attr: { title: points() + '/' + maxPoints() }"></i>
+      </div>
+    </li>
+  </ul>
+
 </div>
