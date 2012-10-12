@@ -1,10 +1,10 @@
 <div id="node-field" class="row-fluid" data-bind="nodeViewport: viewport">
 
   <div id="stats">
-    <ul>
+    <ul data-bind="foreach: stats">
       <li>
-        <i class="icon-bolt"></i>
-        <span data-bind="text: generatorPoints() + '/' + maxGeneratorPoints()"></span>
+        <i data-bind="css: { 'icon-bolt': name === 'generator' }"></i>
+        <span data-bind="text: current() + '/' + max()"></span>
       </li>
     </ul>
   </div>

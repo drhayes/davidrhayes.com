@@ -7,13 +7,16 @@ define([
   // Nothing below here in arguments list.
   'resources/ko/ko.baseNode',
   'resources/ko/ko.nodeViewport'
-], function(ko, template, NodeField, Generator) {
+], function(ko, template, NodeField, Generator, Stat) {
   "use strict";
 
   return function() {
     var self = this;
 
     self.nodeField = new NodeField();
+
+    // What stats to track?
+    self.nodeField.addStat('generator', 'points', 'maxPoints');
 
     // Add a generator by default.
     self.nodeField.nodes.push(new Generator());
