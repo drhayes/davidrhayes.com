@@ -1042,6 +1042,6 @@ ul.icons li .icon-large:before,ul.icons li .icon-large:before{vertical-align:ini
 .icon-umbrella:before{content:"\f0e9";}
 .icon-paste:before{content:"\f0ea";}
 .icon-user-md:before{content:"\f200";}
-#stats{position:fixed;top:0;right:5%;border:1px solid #cccccc;-webkit-border-bottom-right-radius:5px;-moz-border-radius-bottomright:5px;border-bottom-right-radius:5px;-webkit-border-bottom-left-radius:5px;-moz-border-radius-bottomleft:5px;border-bottom-left-radius:5px;}#stats ul{margin:5px;}#stats ul li{display:inline;list-style:none;padding-right:5px;}
+#stats{position:fixed;background-color:#fff;z-index:2012;top:0;right:5%;border:1px solid #cccccc;-webkit-border-bottom-right-radius:5px;-moz-border-radius-bottomright:5px;border-bottom-right-radius:5px;-webkit-border-bottom-left-radius:5px;-moz-border-radius-bottomleft:5px;border-bottom-left-radius:5px;}#stats ul{margin:5px;}#stats ul li{display:inline;list-style:none;padding-right:5px;}
 #node-field{position:relative;overflow:hidden;width:100%;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;-o-user-select:none;user-select:none;}
 .node{display:block;position:absolute;background-color:#dddddd;border:1px solid #cccccc;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;list-style:none;}
