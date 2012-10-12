@@ -1,6 +1,25 @@
 @nodeBorderColor: #ccc;
 @nodeBackgroundColor: #ddd;
 
+#stats {
+  position: fixed;
+  top: 0;
+  right: 5%;
+  border: 1px solid @nodeBorderColor;
+  .border-bottom-right-radius(5px);
+  .border-bottom-left-radius(5px);
+
+  ul {
+    margin: 5px;
+
+    li {
+      display: inline;
+      list-style: none;
+      padding-right: 5px;
+    }
+  }
+}
+
 #node-field {
   position: relative;
   overflow: hidden;
@@ -9,8 +28,10 @@
 }
 
 .node {
+  display: block;
   position: absolute;
   background-color: @nodeBackgroundColor;
   border: 1px solid @nodeBorderColor;
   .border-radius(5px);
+  list-style: none;
 }
