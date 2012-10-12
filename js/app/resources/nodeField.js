@@ -43,10 +43,5 @@ define([
 
     // As nodes come in, do they expose any stats?
     self.nodes.subscribe(self.onNodeAdded);
-
-    // self.addStat = function(name, currentProperty, maxProperty) {
-    //   var stat = new Stat(self.nodes, name, currentProperty, maxProperty);
-    //   self.stats.push(stat);
-    // };
   };
 });

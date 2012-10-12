@@ -15,9 +15,6 @@ define([
 
     self.nodeField = new NodeField();
 
-    // What stats to track?
-    // self.nodeField.addStat('generator', 'points', 'maxPoints');
-
     // Add a generator by default.
     self.nodeField.nodes.push(new Generator());
 
