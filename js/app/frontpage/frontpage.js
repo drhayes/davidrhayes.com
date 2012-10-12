@@ -2,42 +2,32 @@
 define([
   'underscore',
   'text!frontpage/template.html',
+  'system/urlHash',
   'resources/app',
   // Don't need to ref anything below this.
   'hashchange'
-], function(_, template, resourcesApp) {
+], function(_, template, urlHash, resourcesApp) {
   "use strict";
 
   var Frontpage = function() {
-    var self = this;
+    var onParamsChanged = function(params) {
+      var app = apps[params.app] || apps.frontpage;
+      appTransition(app);
+    };
 
-    self.apps = {
+    // Watch for param changes.
+    urlHash.changed.add(onParamsChanged);
+
+    var render = function() {
+      $('#app').html(template);
+    };
+
+    var apps = {
+      frontpage: render,
       resources: resourcesApp
     };
 
-    self.init = function() {
-      // Render the template.
-      $('#app').html(template);
-
-      // Start tracking the hash.
-      $(window).hashchange(self.selectApp, self);
-      // Of course, the hash might already have something...
-      self.selectApp(false);
-    };
-
-    self.selectApp = function(transition) {
-      var hash = location.hash.substring(1);
-      if (self.apps.hasOwnProperty(hash)) {
-        var app = self.apps[hash];
-        if (transition) {
-          self.appTransition(app);
-        } else {
-          app();
-        }
-      }
-    };
-
-    self.appTransition = function(app) {
+    var appTransition = function(app) {
       var $app = $('#app');
       $app.fadeOut('fast', function() {
         app();

@@ -1,7 +1,9 @@
 /*global require */
-require(['frontpage/frontpage'], function(Frontpage) {
+require(['frontpage/frontpage', 'system/urlHash'], function(frontpage, urlHash) {
   "use strict";
 
-  var frontpage = new Frontpage();
-  frontpage.init();
+  frontpage();
+
+  // Get things going.
+  urlHash.onHashchange();
 });
