@@ -5,10 +5,12 @@ define([
 
   var resizeViewport = function(viewport, element) {
     var $element = $(element);
+    var $window = $(window);
+    // First, expand the element's extent to that of the window.
+    $element.width($window.width());
+    $element.height($window.height());
+    // Now, set the viewport to that width and height.
     viewport.width($element.width());
-    // First, expand the element's height to the height of the window.
-    var windowHeight = $(window).height();
-    $element.height(windowHeight);
     viewport.height($element.height());
   };
 
