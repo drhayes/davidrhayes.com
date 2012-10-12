@@ -22,7 +22,8 @@ module.exports = function(grunt) {
             'underscore': '../lib/underscore/underscore-min',
             'hashchange': '../lib/hashchange/jquery.ba-hashchange.min',
             'mousewheel': '../lib/mousewheel/jquery.mousewheel',
-            'text': '../lib/require/plugins/text'
+            'text': '../lib/require/plugins/text',
+            'signals': '../lib/signals/signals.min'
           },
 
           shim: {
