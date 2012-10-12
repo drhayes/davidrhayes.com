@@ -1,6 +1,8 @@
 module.exports = function(grunt) {
 
+  // Load our external task things.
   grunt.loadNpmTasks('grunt-contrib-requirejs');
+  grunt.loadNpmTasks('grunt-contrib-less');
 
   grunt.initConfig({
     test: {
@@ -12,7 +14,6 @@ module.exports = function(grunt) {
     },
 
     requirejs: {
-
       compile: {
         options: {
           baseUrl: 'js/app',
@@ -36,12 +37,29 @@ module.exports = function(grunt) {
           out: 'js/dist/main.js'
         }
       }
+    },
+
+    less: {
+      dev: {
+        options: {
+          paths: ['less/app', 'less/lib/bootstrap', 'less/lib/font-awesome'],
+          compress: true
+        },
+        files: {
+          'css/main.css': 'less/app/main.less'
+        }
+      }
+    },
+
+    watch: {
+      files: ['less/app/*.less'],
+      tasks: 'less:dev'
     }
   });
 
   // Default task.
   grunt.registerTask('default', 'lint test');
 
-  grunt.registerTask('build', 'requirejs');
+  grunt.registerTask('build', 'less:dev requirejs');
 
 };
