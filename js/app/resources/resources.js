@@ -5,8 +5,8 @@ define([
   'resources/nodeField',
   'resources/generator',
   // Nothing below here in arguments list.
-  'resources/ko.baseNode',
-  'resources/ko.nodeViewport'
+  'resources/ko/ko.baseNode',
+  'resources/ko/ko.nodeViewport'
 ], function(ko, template, NodeField, Generator) {
   "use strict";
 
