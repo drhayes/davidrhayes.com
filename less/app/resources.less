@@ -36,4 +36,10 @@
   border: 1px solid @nodeBorderColor;
   .border-radius(5px);
   list-style: none;
+  .box-shadow(0 0 0 rgba(0, 0, 0, 0.5));
+  .transition(box-shadow 1s ease-in-out);
+
+  &:hover {
+    .box-shadow(0 5px 15px rgba(0, 0, 0, 0.5));
+  }
 }
