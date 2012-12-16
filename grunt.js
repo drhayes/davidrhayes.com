@@ -1,5 +1,8 @@
 module.exports = function(grunt) {
 
+  // Load npm tasks.
+  grunt.loadNpmTasks('grunt-contrib-less');
+
   grunt.initConfig({
     test: {
       all: ['test/**/*.js']
