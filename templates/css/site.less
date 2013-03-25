@@ -1,0 +1,16 @@
+@textColor: #333;
+
+body {
+	color: @textColor;
+	background-image:url(/img/tiny_grid.png);
+	background-repeat:repeat;
+}
+
+h1 {
+	color: @textColor;
+	font-family: "Ubuntu", sans-serif;
+
+	small {
+		color: lighten(@textColor, 30%);
+	}
+}
